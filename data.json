@@ -143,16 +143,6 @@
       "note_en": "Check feasibility of conversion tags"
     },
     {
-      "dept": "旅館部",
-      "dept_en": "Hotel Ops",
-      "task": "公式直販プランの現場要望ヒアリング",
-      "task_en": "Gather feedback on official direct booking perks",
-      "due": "10月中旬",
-      "status": "todo",
-      "note": "営業企画との足並み揃え",
-      "note_en": "Coordinate with sales plan"
-    },
-    {
       "dept": "事務局(倉田)",
       "dept_en": "PMO (Kurata)",
       "task": "DX補助金 交付申請書類ドラフト作成",
