@@ -4,8 +4,8 @@
       "type": "セミナー",
       "type_en": "Seminar",
       "round": "第1回",
-      "date": "8月実施済",
-      "agenda": "キックオフ・DX思考とデータ活用の基礎",
+      "date": "8月28日",
+      "agenda": "生成AI時代の課題解決／目標設定ワーク",
       "agenda_en": "Kickoff & Data DX Fundamentals",
       "status": "done"
     },
@@ -14,7 +14,7 @@
       "type_en": "Seminar",
       "round": "第2回",
       "date": "9月9日",
-      "agenda": "データ活用実践・ダッシュボード要件定義",
+      "agenda": "課題発見法・解決手段の選択法",
       "agenda_en": "Data Practice & Dashboard Requirements",
       "status": "wip"
     },
@@ -22,8 +22,8 @@
       "type": "セミナー",
       "type_en": "Seminar",
       "round": "第3回",
-      "date": "10月中旬",
-      "agenda": "データ突合・分析モデルの具体化",
+      "date": "9月30日",
+      "agenda": "生成AIを活用したExcelマクロ",
       "agenda_en": "Data Matching & Model Formulation",
       "status": "todo"
     },
@@ -31,8 +31,8 @@
       "type": "セミナー",
       "type_en": "Seminar",
       "round": "第4回",
-      "date": "11月",
-      "agenda": "BIツール（Looker Studio）ハンズオン",
+      "date": "10月9日",
+      "agenda": "生成AIによる高速アプリ開発",
       "agenda_en": "Hands-on BI (Looker Studio)",
       "status": "todo"
     },
@@ -40,8 +40,8 @@
       "type": "セミナー",
       "type_en": "Seminar",
       "round": "第5回",
-      "date": "1月下旬",
-      "agenda": "自走化に向けた運用定着と総括",
+      "date": "10月19日",
+      "agenda": "製品選定と効果測定の基礎",
       "agenda_en": "Self-sustaining Operations Wrap-up",
       "status": "todo"
     },
@@ -50,7 +50,7 @@
       "type_en": "On-site",
       "round": "第1回",
       "date": "9月下旬",
-      "agenda": "社内データ棚卸し（広告・GA4・予約システム）",
+      "agenda": "現状データの棚卸しと要件整理",
       "agenda_en": "Data Audit (Ads, GA4, Booking System)",
       "status": "todo"
     },
@@ -59,7 +59,7 @@
       "type_en": "On-site",
       "round": "第2回",
       "date": "10月下旬",
-      "agenda": "突合方式確定・補助金申請内容FIX",
+      "agenda": "データ突合方式の設計・補助金申請準備",
       "agenda_en": "Finalize Matching & Subsidy Plan",
       "status": "todo"
     },
@@ -67,8 +67,8 @@
       "type": "現場訪問",
       "type_en": "On-site",
       "round": "第3回",
-      "date": "11月",
-      "agenda": "ダッシュボード初期プロトタイプの検証",
+      "date": "11月中旬",
+      "agenda": "ダッシュボード初期版の実装・中間検証①",
       "agenda_en": "Dashboard Prototype Review",
       "status": "todo"
     },
@@ -76,8 +76,8 @@
       "type": "現場訪問",
       "type_en": "On-site",
       "round": "第4回",
-      "date": "12月〜1月",
-      "agenda": "実データテスト運用・営業フィードバック",
+      "date": "11月下旬",
+      "agenda": "実データでの検証・運用ルール策定",
       "agenda_en": "Live Testing & Sales Team Feedback",
       "status": "todo"
     },
@@ -85,9 +85,18 @@
       "type": "現場訪問",
       "type_en": "On-site",
       "round": "第5回",
-      "date": "2月上旬",
-      "agenda": "最終納品・社内引き継ぎ・実績報告",
+      "date": "12月上旬",
+      "agenda": "成果検証・社内自走化・事例集準備",
       "agenda_en": "Final Delivery, Handover & Reporting",
+      "status": "todo"
+    },
+    {
+      "type": "成果発表会",
+      "type_en": "Seminar",
+      "round": "第11回",
+      "date": "翌年2月2日",
+      "agenda": "成果発表会（3時間程度）",
+      "agenda_en": "New Topic",
       "status": "todo"
     }
   ],
