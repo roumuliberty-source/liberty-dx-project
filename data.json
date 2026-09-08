@@ -115,42 +115,122 @@
     {
       "dept": "営業部",
       "dept_en": "Sales Team",
-      "task": "共同直販プロジェクト企画書の共有と要望ヒアリング",
+      "task": "共同直販企画書の共有と要望ヒアリング",
       "task_en": "Share joint project proposal & gather requirements",
       "due": "9月中旬",
       "status": "wip",
-      "note": "個票カルテの項目すり合わせ",
+      "note": "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ",
       "note_en": "Align report card items"
     },
     {
-      "dept": "WEB担当",
+      "dept": "営業部",
       "dept_en": "Web Marketing",
-      "task": "GA4権限確認・UTMパラメータ命名規則の整理",
+      "task": "提案用個票カルテの要件・デザインFIX",
       "task_en": "Check GA4 access & unify UTM parameters",
       "due": "9月下旬",
-      "status": "wip",
-      "note": "訪問第1回に向けデータ準備",
+      "status": "todo",
+      "note": "営業現場で提示する「手残り利益（OTA手数料削減差額）」の見せ方を確定",
       "note_en": "Prep data for Visit #1"
     },
     {
-      "dept": "システム部",
+      "dept": "営業部",
       "dept_en": "IT / Systems",
-      "task": "予約システムからの成約CSV出力手順の確認",
+      "task": "先行実証モデル施設（数社）の選定",
       "task_en": "Verify reservation CSV export format",
       "due": "10月上旬",
       "status": "todo",
-      "note": "予約完了タグ設置可否の検討",
+      "note": "ダッシュボードを用いた試算シミュレーションを行うテスト宿をリストアップ",
       "note_en": "Check feasibility of conversion tags"
     },
     {
-      "dept": "事務局(倉田)",
+      "dept": "営業部",
       "dept_en": "PMO (Kurata)",
-      "task": "DX補助金 交付申請書類ドラフト作成",
+      "task": "営業トークスクリプト・月次報告フロー整備",
       "task_en": "Draft DX Subsidy application docs",
+      "due": "11月上旬",
+      "status": "todo",
+      "note": "個票カルテを活用した毎月の成果報告（契約継続フォロー）手順をマニュアル化",
+      "note_en": "Finalize after Visit #2 advice"
+    },
+    {
+      "dept": "WEB担当",
+      "dept_en": "Department",
+      "task": "共同ポータル・各施設HPの計測タグ整理",
+      "task_en": "New Collaboration Task",
+      "due": "9月下旬",
+      "status": "todo",
+      "note": "GA4閲覧権限の確認および共同ポータル経由送客のUTMパラメータ命名規則を策定",
+      "note_en": "-"
+    },
+    {
+      "dept": "WEB担当",
+      "dept_en": "Department",
+      "task": "共同広告（検索・Meta・動画）の運用設計",
+      "task_en": "New Collaboration Task",
+      "due": "10月中旬",
+      "status": "todo",
+      "note": "集約した月額広告費の配分ルールおよび共同LP（ポータル）の導線設計",
+      "note_en": "-"
+    },
+    {
+      "dept": "WEB担当",
+      "dept_en": "Department",
+      "task": "公式直販コンバージョン（CV）計測設計",
+      "task_en": "New Collaboration Task",
       "due": "10月下旬",
       "status": "todo",
-      "note": "訪問第2回の助言を踏まえ確定",
-      "note_en": "Finalize after Visit #2 advice"
+      "note": "共同ポータルから各宿泊施設の予約完了ページまでのトラッキング導線を検証",
+      "note_en": "-"
+    },
+    {
+      "dept": "システム部",
+      "dept_en": "Department",
+      "task": "予約成約データ（CSV）の抽出・突合仕様確認",
+      "task_en": "New Collaboration Task",
+      "due": "10月上旬",
+      "status": "todo",
+      "note": "予約システム側の成約データ形式（CSV）を確認し、手動/自動突合の仕様を相談",
+      "note_en": "-"
+    },
+    {
+      "dept": "システム部",
+      "dept_en": "Department",
+      "task": "クライアント施設マスタ（ID管理）の整備",
+      "task_en": "New Collaboration Task",
+      "due": "10月下旬",
+      "status": "todo",
+      "note": "数千件規模の拡大に備え、施設ID・契約プラン（広告負担額）の台帳形式を標準化",
+      "note_en": "-"
+    },
+    {
+      "dept": "事務局(倉田)",
+      "dept_en": "Department",
+      "task": "セミナー（NTTデータFT様）での要件すり合わせ",
+      "task_en": "New Collaboration Task",
+      "due": "9月9日",
+      "status": "wip",
+      "note": "共同直販モデル（広告費×送客×成約突合）を伴走支援の主題として提示・相談",
+      "note_en": "-"
+    },
+    {
+      "dept": "事務局(倉田)",
+      "dept_en": "Department",
+      "task": "DX補助金（上限30万円枠）の使途計画・見積取得",
+      "task_en": "New Collaboration Task",
+      "due": "10月下旬",
+      "status": "todo",
+      "note": "タグ設定委託費やコネクター利用料等の見積を取得し、静岡市へ交付申請ドラフト提出",
+      "note_en": "-"
+    },
+    {
+      "dept": "事務局(倉田)",
+      "dept_en": "Department",
+      "task": "伴走支援 現場訪問（第1回〜第2回）の社内日程調整",
+      "task_en": "New Collaboration Task",
+      "due": "9月〜10月",
+      "status": "wip",
+      "note": "訪問コンサルタントと同席させる部署（WEB担当・システム担当・営業担当）の調整",
+      "note_en": "-"
     }
   ]
 }
