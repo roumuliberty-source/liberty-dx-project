@@ -27,14 +27,19 @@
     font-size: 13px;
     padding-bottom: 50px;
   }
+
+  /* ヘッダー固定設定（sticky） */
   header {
+    position: sticky;
+    top: 0;
+    z-index: 500;
     background-color: #ffffff;
     border-bottom: 2px solid var(--primary);
     padding: 12px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   .header-left h1 { font-size: 18px; color: var(--primary); font-weight: 700; }
   .header-left p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
@@ -141,7 +146,6 @@
   .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 6px; text-align: left; vertical-align: top; }
   .data-table th { background-color: var(--primary-light); color: var(--primary); font-weight: 600; text-align: center; }
   
-  /* ドラッグ専用ハンドル */
   .drag-handle {
     cursor: grab;
     user-select: none;
@@ -153,26 +157,13 @@
     justify-content: center;
     padding-top: 4px;
   }
-  .drag-handle:active {
-    cursor: grabbing;
-  }
-  .drag-handle:hover {
-    color: var(--primary);
-  }
+  .drag-handle:active { cursor: grabbing; }
+  .drag-handle:hover { color: var(--primary); }
   
-  tr.draggable-row {
-    transition: background-color 0.15s ease;
-  }
-  tr.draggable-row.dragging {
-    opacity: 0.35;
-    background-color: #dbeafe !important;
-  }
-  tr.drag-over-top {
-    border-top: 3px solid var(--primary) !important;
-  }
-  tr.drag-over-bottom {
-    border-bottom: 3px solid var(--primary) !important;
-  }
+  tr.draggable-row { transition: background-color 0.15s ease; }
+  tr.draggable-row.dragging { opacity: 0.35; background-color: #dbeafe !important; }
+  tr.drag-over-top { border-top: 3px solid var(--primary) !important; }
+  tr.drag-over-bottom { border-bottom: 3px solid var(--primary) !important; }
 
   .inline-input {
     width: 100%;
@@ -412,22 +403,21 @@
   let budgetChartInstance = null;
   let currentFileSha = null;
 
-  // ドラッグ管理変数
   let dragSrcIndex = null;
   let dragCategory = null;
 
   const defaultData = {
     events: [
-      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月実施済", agenda: "キックオフ・DX思考とデータ活用の基礎", agenda_en: "Kickoff & Data DX Fundamentals", status: "done" },
-      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日", agenda: "データ活用実践・ダッシュボード要件定義", agenda_en: "Data Practice & Dashboard Requirements", status: "wip" },
-      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月下旬", agenda: "社内データ棚卸し（広告・GA4・予約システム）", agenda_en: "Data Audit (Ads, GA4, Booking System)", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "10月中旬", agenda: "データ突合・分析モデルの具体化", agenda_en: "Data Matching & Model Formulation", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月下旬", agenda: "突合方式確定・補助金申請内容FIX", agenda_en: "Finalize Matching & Subsidy Plan", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "11月", agenda: "BIツール（Looker Studio）ハンズオン", agenda_en: "Hands-on BI (Looker Studio)", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月", agenda: "ダッシュボード初期プロトタイプの検証", agenda_en: "Dashboard Prototype Review", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "12月〜1月", agenda: "実データテスト運用・営業フィードバック", agenda_en: "Live Testing & Sales Team Feedback", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "1月下旬", agenda: "自走化に向けた運用定着と総括", agenda_en: "Self-sustaining Operations Wrap-up", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "2月上旬", agenda: "最終納品・社内引き継ぎ・実績報告", agenda_en: "Final Delivery, Handover & Reporting", status: "todo" }
+      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日", agenda: "生成AI時代の課題解決／目標設定ワーク", agenda_en: "GenAI Problem Solving & Goal Setting", status: "done" },
+      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日", agenda: "課題発見法・解決手段の選択法", agenda_en: "Issue Identification & Solution Selection", status: "wip" },
+      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "9月30日", agenda: "生成AIを活用したExcelマクロ", agenda_en: "Excel Macros with Generative AI", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "10月9日", agenda: "生成AIによる高速アプリ開発", agenda_en: "Rapid App Development with AI", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "10月19日", agenda: "製品選定と効果測定の基礎", agenda_en: "Product Selection & Metrics Basics", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月下旬", agenda: "現状データの棚卸しと要件整理", agenda_en: "Current Data Audit & Requirements", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月下旬", agenda: "データ突合方式の設計・補助金申請準備", agenda_en: "Data Matching Design & Subsidy Prep", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月中旬", agenda: "ダッシュボード初期版の実装・中間検証①", agenda_en: "Initial Dashboard Prototype Review ①", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "11月下旬", agenda: "実データでの検証・運用ルール策定", agenda_en: "Validation with Live Data & Rules", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月中旬", agenda: "最終納品・社内引き継ぎ・総括", agenda_en: "Final Delivery, Handover & Summary", status: "todo" }
     ],
     budgets: [
       { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, status: "todo" },
@@ -679,7 +669,6 @@
     updateChart();
   }
 
-  // --- ドラッグ＆ドロップ実装（専用ハンドル対応） ---
   function setupDragHandle(handleEl, rowEl, category, index) {
     handleEl.setAttribute('draggable', 'true');
 
@@ -688,7 +677,6 @@
       dragCategory = category;
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/plain', index);
-      // 行全体をdragging状態にしてスタイル適用
       setTimeout(() => rowEl.classList.add('dragging'), 0);
     });
 
@@ -701,7 +689,6 @@
       dragCategory = null;
     });
 
-    // 行へのドラッグオーバー
     rowEl.addEventListener('dragover', (e) => {
       if (dragCategory !== category) return;
       e.preventDefault();
@@ -727,16 +714,7 @@
       e.preventDefault();
       e.stopPropagation();
 
-      const rect = rowEl.getBoundingClientRect();
-      const midY = rect.top + rect.height / 2;
-      let targetIndex = index;
-
-      if (e.clientY >= midY && dragSrcIndex < index) {
-        // 下半分へのドロップ
-      } else if (e.clientY < midY && dragSrcIndex > index) {
-        // 上半分へのドロップ
-      }
-
+      const targetIndex = index;
       if (dragSrcIndex !== null && dragSrcIndex !== targetIndex) {
         const item = appData[category].splice(dragSrcIndex, 1)[0];
         appData[category].splice(targetIndex, 0, item);
@@ -746,7 +724,6 @@
     });
   }
 
-  // 1. イベント描画
   function renderEvents() {
     const tbody = document.getElementById('eventsTableBody');
     tbody.innerHTML = "";
@@ -804,7 +781,6 @@
     }
   }
 
-  // 2. 予算描画
   function renderBudgets() {
     const tbody = document.getElementById('budgetTableBody');
     tbody.innerHTML = "";
@@ -863,7 +839,6 @@
     }
   }
 
-  // 3. タスク描画
   function renderTasks() {
     const tbody = document.getElementById('tasksTableBody');
     tbody.innerHTML = "";
