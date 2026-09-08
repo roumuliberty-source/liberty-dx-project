@@ -141,29 +141,38 @@
   .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 6px; text-align: left; vertical-align: top; }
   .data-table th { background-color: var(--primary-light); color: var(--primary); font-weight: 600; text-align: center; }
   
-  /* ドラッグ＆ドロップ用スタイル */
-  tr.draggable-row { cursor: move; }
-  tr.draggable-row.dragging { opacity: 0.4; background-color: #e0f2fe; }
-  tr.drag-over { border-top: 3px solid var(--primary) !important; }
-
-  .order-controls {
+  /* ドラッグ専用ハンドル */
+  .drag-handle {
+    cursor: grab;
+    user-select: none;
+    font-size: 16px;
+    color: #94a3b8;
+    text-align: center;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
     align-items: center;
     justify-content: center;
+    padding-top: 4px;
   }
-  .btn-move {
-    background: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    border-radius: 3px;
-    padding: 1px 4px;
-    font-size: 10px;
-    cursor: pointer;
-    line-height: 1;
-    color: #475569;
+  .drag-handle:active {
+    cursor: grabbing;
   }
-  .btn-move:hover { background: #e2e8f0; color: var(--primary); }
+  .drag-handle:hover {
+    color: var(--primary);
+  }
+  
+  tr.draggable-row {
+    transition: background-color 0.15s ease;
+  }
+  tr.draggable-row.dragging {
+    opacity: 0.35;
+    background-color: #dbeafe !important;
+  }
+  tr.drag-over-top {
+    border-top: 3px solid var(--primary) !important;
+  }
+  tr.drag-over-bottom {
+    border-bottom: 3px solid var(--primary) !important;
+  }
 
   .inline-input {
     width: 100%;
@@ -249,7 +258,7 @@
   <div class="control-bar">
     <div style="font-size:12px; color:var(--text-muted);" id="txtDbStatus">
       🌐 接続状況: <span id="syncStatus" class="font-bold text-primary">オフライン / ローカル動作中</span>
-      <span style="font-size:11px; margin-left:12px; color:#64748b;">※各行の「▲/▼」または行全体をドラッグ＆ドロップで並び替えできます</span>
+      <span style="font-size:11px; margin-left:12px; color:#64748b;">※左端の「⠿」をつかんで上下にドラッグ＆ドロップすると並び替えできます</span>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <button class="btn btn-success" onclick="syncToGitHub()" id="btnSync">☁️ GitHubへ同期保存</button>
@@ -288,18 +297,18 @@
     <!-- 左：イベント一覧 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
-        <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（並び替え・編集可能）</span>
+        <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（ドラッグ並び替え可能）</span>
         <button class="btn btn-primary" onclick="addEventRow()" id="btnAddEvent">＋ 追加</button>
       </div>
       <div class="table-wrapper">
         <table class="data-table" id="tableEvents">
           <thead>
             <tr>
-              <th style="width: 6%;">順</th>
+              <th style="width: 5%;"></th>
               <th style="width: 14%;" id="thEvType">区分</th>
               <th style="width: 10%;" id="thEvRound">回次</th>
               <th style="width: 17%;" id="thEvDate">時期・日程</th>
-              <th style="width: 35%;" id="thEvAgenda">アジェンダ・内容</th>
+              <th style="width: 36%;" id="thEvAgenda">アジェンダ・内容</th>
               <th style="width: 13%;" id="thEvStatus">状況</th>
               <th style="width: 5%;"></th>
             </tr>
@@ -312,7 +321,7 @@
     <!-- 右：補助金使途 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
-        <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（並び替え・編集可能）</span>
+        <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（ドラッグ並び替え可能）</span>
         <button class="btn btn-primary" onclick="addBudgetRow()" id="btnAddBudget">＋ 追加</button>
       </div>
       <div style="height: 160px; margin-bottom: 12px;">
@@ -322,8 +331,8 @@
         <table class="data-table" id="tableBudgets">
           <thead>
             <tr>
-              <th style="width: 8%;">順</th>
-              <th style="width: 38%;" id="thBgItem">費目 / 対象</th>
+              <th style="width: 7%;"></th>
+              <th style="width: 39%;" id="thBgItem">費目 / 対象</th>
               <th style="width: 26%;" id="thBgAmount">金額 (円)</th>
               <th style="width: 20%;" id="thBgStatus">執行状況</th>
               <th style="width: 8%;"></th>
@@ -346,19 +355,19 @@
   <!-- 下段：社内横断タスクボード -->
   <div class="card">
     <div class="card-header">
-      <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（並び替え・編集可能）</span>
+      <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（ドラッグ並び替え可能）</span>
       <button class="btn btn-primary" onclick="addTaskRow()" id="btnAddTask">＋ タスク追加</button>
     </div>
     <div class="table-wrapper">
       <table class="data-table" id="tableTasks">
         <thead>
           <tr>
-            <th style="width: 5%;">順</th>
+            <th style="width: 4%;"></th>
             <th style="width: 12%;" id="thTkDept">担当部署</th>
             <th style="width: 32%;" id="thTkTask">主要タスク・連携事項</th>
             <th style="width: 9%;" id="thTkDue">期日</th>
             <th style="width: 10%;" id="thTkStatus">ステータス</th>
-            <th style="width: 28%;" id="thTkNotes">備考 / 次のアクション</th>
+            <th style="width: 29%;" id="thTkNotes">備考 / 次のアクション</th>
             <th style="width: 4%;"></th>
           </tr>
         </thead>
@@ -402,7 +411,9 @@
   let currentLang = 'ja';
   let budgetChartInstance = null;
   let currentFileSha = null;
-  let dragSrcEl = null;
+
+  // ドラッグ管理変数
+  let dragSrcIndex = null;
   let dragCategory = null;
 
   const defaultData = {
@@ -442,11 +453,11 @@
       kpiVisit: "② 現場訪問コンサルティング",
       kpiSubsidy: "③ DX補助金 予算執行",
       kpiTasks: "④ 社内タスク完了率",
-      eventsTitle: "伴走支援プログラム進捗（並び替え・編集可能）",
+      eventsTitle: "伴走支援プログラム進捗（ドラッグ並び替え可能）",
       addEvent: "＋ 追加",
-      budgetTitle: "DX促進補助金 想定使途（並び替え・編集可能）",
+      budgetTitle: "DX促進補助金 想定使途（ドラッグ並び替え可能）",
       addBudget: "＋ 追加",
-      tasksTitle: "社内横断タスク推進ボード（並び替え・編集可能）",
+      tasksTitle: "社内横断タスク推進ボード（ドラッグ並び替え可能）",
       addTask: "＋ タスク追加",
       thType: "区分", thRound: "回次", thDate: "時期・日程", thAgenda: "アジェンダ・内容", thStatus: "状況",
       thItem: "費目 / 対象", thAmount: "金額 (円)", thStatusBg: "執行状況",
@@ -465,11 +476,11 @@
       kpiVisit: "② On-site Consultation",
       kpiSubsidy: "③ Subsidy Execution",
       kpiTasks: "④ Internal Tasks Completion",
-      eventsTitle: "Mentoring Roadmap (Sortable & Editable)",
+      eventsTitle: "Mentoring Roadmap (Drag to Sort)",
       addEvent: "+ Add",
-      budgetTitle: "Subsidy Allocation (Sortable & Editable)",
+      budgetTitle: "Subsidy Allocation (Drag to Sort)",
       addBudget: "+ Add",
-      tasksTitle: "Task Board (Sortable & Editable)",
+      tasksTitle: "Task Board (Drag to Sort)",
       addTask: "+ Add Task",
       thType: "Type", thRound: "Round", thDate: "Schedule", thAgenda: "Agenda & Details", thStatus: "Status",
       thItem: "Expense Item / Purpose", thAmount: "Amount (JPY)", thStatusBg: "Status",
@@ -534,7 +545,7 @@
     const token = localStorage.getItem('gh_token');
 
     if (!owner || !repo || !token) {
-      alert("GitHubの同期設定（トークン・リポジトリ情報）が未設定です。右上の「⚙️ GitHub設定」から登録してください。");
+      alert("GitHubの同期設定が未設定です。右上の「⚙️ GitHub設定」から登録してください。");
       openConfigModal();
       return;
     }
@@ -556,7 +567,7 @@
       const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
 
       const body = {
-        message: `Update ${path} with sorted tasks via PM Dashboard [skip ci]`,
+        message: `Update ${path} via PM Dashboard [skip ci]`,
         content: encodedContent,
         sha: currentFileSha || undefined
       };
@@ -668,47 +679,67 @@
     updateChart();
   }
 
-  // 並び替え用共通関数（ボタン移動）
-  function moveItem(category, index, direction) {
-    const list = appData[category];
-    const targetIndex = index + direction;
-    if (targetIndex < 0 || targetIndex >= list.length) return;
-    const temp = list[index];
-    list[index] = list[targetIndex];
-    list[targetIndex] = temp;
-    saveData();
-    renderAll();
-  }
+  // --- ドラッグ＆ドロップ実装（専用ハンドル対応） ---
+  function setupDragHandle(handleEl, rowEl, category, index) {
+    handleEl.setAttribute('draggable', 'true');
 
-  // ドラッグ＆ドロップ共通ハンドラ
-  function attachDragEvents(row, category, index) {
-    row.setAttribute('draggable', 'true');
-    row.addEventListener('dragstart', (e) => {
-      dragSrcEl = row;
+    handleEl.addEventListener('dragstart', (e) => {
+      dragSrcIndex = index;
       dragCategory = category;
+      e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/plain', index);
-      row.classList.add('dragging');
+      // 行全体をdragging状態にしてスタイル適用
+      setTimeout(() => rowEl.classList.add('dragging'), 0);
     });
-    row.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      if (dragCategory === category) row.classList.add('drag-over');
+
+    handleEl.addEventListener('dragend', () => {
+      rowEl.classList.remove('dragging');
+      document.querySelectorAll('.drag-over-top, .drag-over-bottom').forEach(el => {
+        el.classList.remove('drag-over-top', 'drag-over-bottom');
+      });
+      dragSrcIndex = null;
+      dragCategory = null;
     });
-    row.addEventListener('dragleave', () => {
-      row.classList.remove('drag-over');
-    });
-    row.addEventListener('dragend', () => {
-      row.classList.remove('dragging');
-      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
-    });
-    row.addEventListener('drop', (e) => {
-      e.stopPropagation();
-      row.classList.remove('drag-over');
+
+    // 行へのドラッグオーバー
+    rowEl.addEventListener('dragover', (e) => {
       if (dragCategory !== category) return;
-      const srcIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
-      const targetIndex = index;
-      if (srcIndex !== targetIndex) {
-        const movedItem = appData[category].splice(srcIndex, 1)[0];
-        appData[category].splice(targetIndex, 0, movedItem);
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+
+      const rect = rowEl.getBoundingClientRect();
+      const midY = rect.top + rect.height / 2;
+      if (e.clientY < midY) {
+        rowEl.classList.add('drag-over-top');
+        rowEl.classList.remove('drag-over-bottom');
+      } else {
+        rowEl.classList.add('drag-over-bottom');
+        rowEl.classList.remove('drag-over-top');
+      }
+    });
+
+    rowEl.addEventListener('dragleave', () => {
+      rowEl.classList.remove('drag-over-top', 'drag-over-bottom');
+    });
+
+    rowEl.addEventListener('drop', (e) => {
+      if (dragCategory !== category) return;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const rect = rowEl.getBoundingClientRect();
+      const midY = rect.top + rect.height / 2;
+      let targetIndex = index;
+
+      if (e.clientY >= midY && dragSrcIndex < index) {
+        // 下半分へのドロップ
+      } else if (e.clientY < midY && dragSrcIndex > index) {
+        // 上半分へのドロップ
+      }
+
+      if (dragSrcIndex !== null && dragSrcIndex !== targetIndex) {
+        const item = appData[category].splice(dragSrcIndex, 1)[0];
+        appData[category].splice(targetIndex, 0, item);
         saveData();
         renderAll();
       }
@@ -726,12 +757,7 @@
       const tr = document.createElement('tr');
       tr.className = 'draggable-row';
       tr.innerHTML = `
-        <td class="text-center">
-          <div class="order-controls">
-            <button class="btn-move" onclick="moveItem('events', ${i}, -1)" ${i===0?'disabled style="opacity:0.3;"':''}>▲</button>
-            <button class="btn-move" onclick="moveItem('events', ${i}, 1)" ${i===appData.events.length-1?'disabled style="opacity:0.3;"':''}>▼</button>
-          </div>
-        </td>
+        <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
         <td><input type="text" class="inline-input font-bold" value="${typeVal}" onchange="updateEventField(${i}, 'type', this.value)"></td>
         <td><input type="text" class="inline-input text-center" value="${ev.round || ''}" onchange="updateEventField(${i}, 'round', this.value)"></td>
         <td><input type="text" class="inline-input" value="${ev.date || ''}" onchange="updateEventField(${i}, 'date', this.value)"></td>
@@ -745,8 +771,8 @@
         </td>
         <td class="text-center"><button class="btn-del" onclick="deleteEvent(${i})">×</button></td>
       `;
-      attachDragEvents(tr, 'events', i);
       tbody.appendChild(tr);
+      setupDragHandle(tr.querySelector('.drag-handle'), tr, 'events', i);
     });
   }
 
@@ -791,12 +817,7 @@
       const tr = document.createElement('tr');
       tr.className = 'draggable-row';
       tr.innerHTML = `
-        <td class="text-center">
-          <div class="order-controls">
-            <button class="btn-move" onclick="moveItem('budgets', ${i}, -1)" ${i===0?'disabled style="opacity:0.3;"':''}>▲</button>
-            <button class="btn-move" onclick="moveItem('budgets', ${i}, 1)" ${i===appData.budgets.length-1?'disabled style="opacity:0.3;"':''}>▼</button>
-          </div>
-        </td>
+        <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
         <td><textarea class="inline-textarea" onchange="updateBudgetField(${i}, 'item', this.value)">${itemVal}</textarea></td>
         <td><input type="number" class="inline-input text-right font-bold" value="${b.amount || 0}" onchange="updateBudgetField(${i}, 'amount', this.value)"></td>
         <td class="text-center">
@@ -808,8 +829,8 @@
         </td>
         <td class="text-center"><button class="btn-del" onclick="deleteBudget(${i})">×</button></td>
       `;
-      attachDragEvents(tr, 'budgets', i);
       tbody.appendChild(tr);
+      setupDragHandle(tr.querySelector('.drag-handle'), tr, 'budgets', i);
     });
 
     document.getElementById('valBgTotal').innerText = "¥" + total.toLocaleString();
@@ -854,12 +875,7 @@
       const tr = document.createElement('tr');
       tr.className = 'draggable-row';
       tr.innerHTML = `
-        <td class="text-center">
-          <div class="order-controls">
-            <button class="btn-move" onclick="moveItem('tasks', ${i}, -1)" ${i===0?'disabled style="opacity:0.3;"':''}>▲</button>
-            <button class="btn-move" onclick="moveItem('tasks', ${i}, 1)" ${i===appData.tasks.length-1?'disabled style="opacity:0.3;"':''}>▼</button>
-          </div>
-        </td>
+        <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
         <td><input type="text" class="inline-input font-bold" value="${deptVal}" onchange="updateTaskField(${i}, 'dept', this.value)"></td>
         <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'task', this.value)">${taskVal}</textarea></td>
         <td><input type="text" class="inline-input text-center" value="${t.due || ''}" onchange="updateTaskField(${i}, 'due', this.value)"></td>
@@ -873,8 +889,8 @@
         <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'note', this.value)">${noteVal}</textarea></td>
         <td class="text-center"><button class="btn-del" onclick="deleteTask(${i})">×</button></td>
       `;
-      attachDragEvents(tr, 'tasks', i);
       tbody.appendChild(tr);
+      setupDragHandle(tr.querySelector('.drag-handle'), tr, 'tasks', i);
     });
   }
 
