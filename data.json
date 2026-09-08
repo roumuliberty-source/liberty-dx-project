@@ -1,0 +1,166 @@
+{
+  "events": [
+    {
+      "type": "セミナー",
+      "type_en": "Seminar",
+      "round": "第1回",
+      "date": "8月実施済",
+      "agenda": "キックオフ・DX思考とデータ活用の基礎",
+      "agenda_en": "Kickoff & Data DX Fundamentals",
+      "status": "done"
+    },
+    {
+      "type": "セミナー",
+      "type_en": "Seminar",
+      "round": "第2回",
+      "date": "9月9日",
+      "agenda": "データ活用実践・ダッシュボード要件定義",
+      "agenda_en": "Data Practice & Dashboard Requirements",
+      "status": "wip"
+    },
+    {
+      "type": "現場訪問",
+      "type_en": "On-site",
+      "round": "第1回",
+      "date": "9月下旬",
+      "agenda": "社内データ棚卸し（広告・GA4・予約システム）",
+      "agenda_en": "Data Audit (Ads, GA4, Booking System)",
+      "status": "todo"
+    },
+    {
+      "type": "セミナー",
+      "type_en": "Seminar",
+      "round": "第3回",
+      "date": "10月中旬",
+      "agenda": "データ突合・分析モデルの具体化",
+      "agenda_en": "Data Matching & Model Formulation",
+      "status": "todo"
+    },
+    {
+      "type": "現場訪問",
+      "type_en": "On-site",
+      "round": "第2回",
+      "date": "10月下旬",
+      "agenda": "突合方式確定・補助金申請内容FIX",
+      "agenda_en": "Finalize Matching & Subsidy Plan",
+      "status": "todo"
+    },
+    {
+      "type": "セミナー",
+      "type_en": "Seminar",
+      "round": "第4回",
+      "date": "11月",
+      "agenda": "BIツール（Looker Studio）ハンズオン",
+      "agenda_en": "Hands-on BI (Looker Studio)",
+      "status": "todo"
+    },
+    {
+      "type": "現場訪問",
+      "type_en": "On-site",
+      "round": "第3回",
+      "date": "11月",
+      "agenda": "ダッシュボード初期プロトタイプの検証",
+      "agenda_en": "Dashboard Prototype Review",
+      "status": "todo"
+    },
+    {
+      "type": "現場訪問",
+      "type_en": "On-site",
+      "round": "第4回",
+      "date": "12月〜1月",
+      "agenda": "実データテスト運用・営業フィードバック",
+      "agenda_en": "Live Testing & Sales Team Feedback",
+      "status": "todo"
+    },
+    {
+      "type": "セミナー",
+      "type_en": "Seminar",
+      "round": "第5回",
+      "date": "1月下旬",
+      "agenda": "自走化に向けた運用定着と総括",
+      "agenda_en": "Self-sustaining Operations Wrap-up",
+      "status": "todo"
+    },
+    {
+      "type": "現場訪問",
+      "type_en": "On-site",
+      "round": "第5回",
+      "date": "2月上旬",
+      "agenda": "最終納品・社内引き継ぎ・実績報告",
+      "agenda_en": "Final Delivery, Handover & Reporting",
+      "status": "todo"
+    }
+  ],
+  "budgets": [
+    {
+      "item": "委託費：初期構築・GA4タグ設定支援",
+      "item_en": "Outsourcing: GA4 Tag & Initial Setup",
+      "amount": 250000,
+      "status": "todo"
+    },
+    {
+      "item": "利用料：データ連携コネクター（6ヶ月）",
+      "item_en": "Subscription: Data Connector (6 mos)",
+      "amount": 120000,
+      "status": "todo"
+    },
+    {
+      "item": "備品：社内検証用ツールライセンス",
+      "item_en": "Tools: Internal Testing Licenses",
+      "amount": 80000,
+      "status": "todo"
+    }
+  ],
+  "tasks": [
+    {
+      "dept": "営業部",
+      "dept_en": "Sales Team",
+      "task": "共同直販プロジェクト企画書の共有と要望ヒアリング",
+      "task_en": "Share joint project proposal & gather requirements",
+      "due": "9月中旬",
+      "status": "wip",
+      "note": "個票カルテの項目すり合わせ",
+      "note_en": "Align report card items"
+    },
+    {
+      "dept": "WEB担当",
+      "dept_en": "Web Marketing",
+      "task": "GA4権限確認・UTMパラメータ命名規則の整理",
+      "task_en": "Check GA4 access & unify UTM parameters",
+      "due": "9月下旬",
+      "status": "wip",
+      "note": "訪問第1回に向けデータ準備",
+      "note_en": "Prep data for Visit #1"
+    },
+    {
+      "dept": "システム部",
+      "dept_en": "IT / Systems",
+      "task": "予約システムからの成約CSV出力手順の確認",
+      "task_en": "Verify reservation CSV export format",
+      "due": "10月上旬",
+      "status": "todo",
+      "note": "予約完了タグ設置可否の検討",
+      "note_en": "Check feasibility of conversion tags"
+    },
+    {
+      "dept": "旅館部",
+      "dept_en": "Hotel Ops",
+      "task": "公式直販プランの現場要望ヒアリング",
+      "task_en": "Gather feedback on official direct booking perks",
+      "due": "10月中旬",
+      "status": "todo",
+      "note": "営業企画との足並み揃え",
+      "note_en": "Coordinate with sales plan"
+    },
+    {
+      "dept": "事務局(倉田)",
+      "dept_en": "PMO (Kurata)",
+      "task": "DX補助金 交付申請書類ドラフト作成",
+      "task_en": "Draft DX Subsidy application docs",
+      "due": "10月下旬",
+      "status": "todo",
+      "note": "訪問第2回の助言を踏まえ確定",
+      "note_en": "Finalize after Visit #2 advice"
+    }
+  ]
+}
