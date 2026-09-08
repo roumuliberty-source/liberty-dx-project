@@ -137,8 +137,8 @@
   .card-title { font-size: 13px; font-weight: 700; color: var(--primary); }
 
   .table-wrapper { overflow-x: auto; }
-  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: left; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: left; vertical-align: top; }
   .data-table th { background-color: var(--primary-light); color: var(--primary); font-weight: 600; text-align: center; }
   
   .inline-input {
@@ -152,6 +152,24 @@
   }
   .inline-input:hover { border-color: #cbd5e1; background: #ffffff; }
   .inline-input:focus { border-color: var(--primary); background: #ffffff; outline: none; }
+
+  /* 複数行テキストエリア */
+  .inline-textarea {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: inherit;
+    background: transparent;
+    resize: vertical;
+    min-height: 48px;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+  .inline-textarea:hover { border-color: #cbd5e1; background: #ffffff; }
+  .inline-textarea:focus { border-color: var(--primary); background: #ffffff; outline: none; }
+
   .text-center { text-align: center; }
   .text-right { text-align: right; }
   .font-bold { font-weight: bold; }
@@ -173,7 +191,6 @@
   }
   .btn-del:hover { color: #a71d2a; }
 
-  /* GitHub設定モーダル */
   .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
@@ -205,7 +222,6 @@
 
 <div class="container">
 
-  <!-- 操作バー -->
   <div class="control-bar">
     <div style="font-size:12px; color:var(--text-muted);" id="txtDbStatus">
       🌐 接続状況: <span id="syncStatus" class="font-bold text-primary">オフライン / ローカル動作中</span>
@@ -219,7 +235,6 @@
     </div>
   </div>
 
-  <!-- 1. KPIサマリーカード -->
   <div class="kpi-grid">
     <div class="kpi-card">
       <div class="kpi-title" id="lblKpiSeminar">① 基礎セミナー消化状況</div>
@@ -243,10 +258,7 @@
     </div>
   </div>
 
-  <!-- 2. 中段：伴走支援プログラム ＋ 補助金配分 -->
   <div class="dashboard-grid">
-    
-    <!-- 左：イベント一覧 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（編集可能）</span>
@@ -269,7 +281,6 @@
       </div>
     </div>
 
-    <!-- 右：補助金配分 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（編集可能）</span>
@@ -282,9 +293,9 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th style="width: 36%;" id="thBgItem">費目 / 対象</th>
+              <th style="width: 40%;" id="thBgItem">費目 / 対象</th>
               <th style="width: 28%;" id="thBgAmount">金額 (円)</th>
-              <th style="width: 26%;" id="thBgStatus">執行状況</th>
+              <th style="width: 22%;" id="thBgStatus">執行状況</th>
               <th style="width: 10%;"></th>
             </tr>
           </thead>
@@ -299,10 +310,9 @@
         </table>
       </div>
     </div>
-
   </div>
 
-  <!-- 3. 下段：社内タスク管理ボード -->
+  <!-- 下段：社内横断タスクボード（列幅と複数行入力を最適化） -->
   <div class="card">
     <div class="card-header">
       <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（編集可能）</span>
@@ -312,11 +322,11 @@
       <table class="data-table">
         <thead>
           <tr>
-            <th style="width: 15%;" id="thTkDept">担当部署</th>
-            <th style="width: 33%;" id="thTkTask">主要タスク・連携事項</th>
-            <th style="width: 12%;" id="thTkDue">期日</th>
-            <th style="width: 15%;" id="thTkStatus">ステータス</th>
-            <th style="width: 21%;" id="thTkNotes">備考 / 次のアクション</th>
+            <th style="width: 11%;" id="thTkDept">担当部署</th>
+            <th style="width: 32%;" id="thTkTask">主要タスク・連携事項</th>
+            <th style="width: 9%;" id="thTkDue">期日</th>
+            <th style="width: 11%;" id="thTkStatus">ステータス</th>
+            <th style="width: 33%;" id="thTkNotes">備考 / 次のアクション</th>
             <th style="width: 4%;"></th>
           </tr>
         </thead>
@@ -327,17 +337,16 @@
 
 </div>
 
-<!-- GitHub設定モーダル -->
 <div class="modal-overlay" id="configModal">
   <div class="modal-box">
     <h3>⚙️ GitHubリポジトリ連携設定</h3>
     <div class="form-group">
       <label>GitHubリポジトリオーナー（ユーザー名または組織名）</label>
-      <input type="text" id="cfgOwner" placeholder="例: liberty-dx">
+      <input type="text" id="cfgOwner" placeholder="例: roumuliberty-source">
     </div>
     <div class="form-group">
       <label>リポジトリ名</label>
-      <input type="text" id="cfgRepo" placeholder="例: shizuoka-dx-project">
+      <input type="text" id="cfgRepo" placeholder="例: liberty-dx-project">
     </div>
     <div class="form-group">
       <label>データファイルパス（通常は data.json）</label>
@@ -360,7 +369,7 @@
 <script>
   let currentLang = 'ja';
   let budgetChartInstance = null;
-  let currentFileSha = null; // GitHub API更新用のSHA
+  let currentFileSha = null;
 
   const defaultData = {
     events: [
@@ -381,11 +390,11 @@
       { item: "備品：社内検証用ツールライセンス", item_en: "Tools: Internal Testing Licenses", amount: 80000, status: "todo" }
     ],
     tasks: [
-      { dept: "営業部", dept_en: "Sales Team", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", task_en: "Share joint project proposal & gather requirements", due: "9月中旬", status: "wip", note: "個票カルテの項目すり合わせ", note_en: "Align report card items" },
-      { dept: "WEB担当", dept_en: "Web Marketing", task: "GA4権限確認・UTMパラメータ命名規則の整理", task_en: "Check GA4 access & unify UTM parameters", due: "9月下旬", status: "wip", note: "訪問第1回に向けデータ準備", note_en: "Prep data for Visit #1" },
-      { dept: "システム部", dept_en: "IT / Systems", task: "予約システムからの成約CSV出力手順の確認", task_en: "Verify reservation CSV export format", due: "10月上旬", status: "todo", note: "予約完了タグ設置可否の検討", note_en: "Check feasibility of conversion tags" },
-      { dept: "旅館部", dept_en: "Hotel Ops", task: "公式直販プランの現場要望ヒアリング", task_en: "Gather feedback on official direct booking perks", due: "10月中旬", status: "todo", note: "営業企画との足並み揃え", note_en: "Coordinate with sales plan" },
-      { dept: "事務局(倉田)", dept_en: "PMO (Kurata)", task: "DX補助金 交付申請書類ドラフト作成", task_en: "Draft DX Subsidy application docs", due: "10月下旬", status: "todo", note: "訪問第2回の助言を踏まえ確定", note_en: "Finalize after Visit #2 advice" }
+      { dept: "営業部", dept_en: "Sales", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", task_en: "Share joint project proposal & gather requirements", due: "9月中旬", status: "wip", note: "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ", note_en: "Align report card items" },
+      { dept: "WEB担当", dept_en: "Web", task: "共同ポータル・各施設HPの計測タグ整理", task_en: "Organize tracking tags on portal & sites", due: "9月下旬", status: "wip", note: "GA4閲覧権限の確認および共同ポータル経由送客のUTMパラメータ命名規則を策定", note_en: "Prep data for Visit #1" },
+      { dept: "システム部", dept_en: "IT", task: "予約成約データ（CSV）の抽出・突合仕様確認", task_en: "Verify reservation CSV export format", due: "10月上旬", status: "todo", note: "予約システム側の成約データ形式（CSV）を確認し、手動/自動突合の仕様を相談", note_en: "Check feasibility of conversion tags" },
+      { dept: "旅館部", dept_en: "Hotel Ops", task: "公式予約限定特典（直販インセンティブ）の選定", task_en: "Gather feedback on official direct booking perks", due: "10月中旬", status: "todo", note: "OTA経由よりも公式予約を選んでもらうための特典（館内利用券等）の現場ヒアリング", note_en: "Coordinate with sales plan" },
+      { dept: "事務局(倉田)", dept_en: "PMO", task: "明日セミナー（NTTデータFT様）での要件すり合わせ", task_en: "Align requirements at Seminar #2", due: "9月9日", status: "wip", note: "共同直販モデル（広告費×送客×成約突合）を伴走支援の主題として提示・相談", note_en: "Present joint direct model at Seminar #2" }
     ]
   };
 
@@ -447,13 +456,11 @@
     renderAll();
   };
 
-  // オンライン上の data.json を自動フェッチ
   async function autoFetchFromGitHub() {
     const owner = localStorage.getItem('gh_owner');
     const repo = localStorage.getItem('gh_repo');
     const path = localStorage.getItem('gh_path') || 'data.json';
 
-    // 1. 同一ドメイン（GitHub Pages等）に data.json がある場合の自動読込
     try {
       const res = await fetch(path + '?t=' + new Date().getTime());
       if (res.ok) {
@@ -465,11 +472,8 @@
           return;
         }
       }
-    } catch (e) {
-      console.log('ローカル/独自ホスト経由のfetchを試行');
-    }
+    } catch (e) {}
 
-    // 2. GitHub API経由のフェッチ
     if (owner && repo) {
       try {
         const token = localStorage.getItem('gh_token');
@@ -489,7 +493,6 @@
     }
   }
 
-  // GitHubへ直接コミット（オンライン同期）
   async function syncToGitHub() {
     const owner = localStorage.getItem('gh_owner');
     const repo = localStorage.getItem('gh_repo');
@@ -507,7 +510,6 @@
     btn.disabled = true;
 
     try {
-      // 最新のSHAを取得
       const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
         headers: { 'Authorization': `token ${token}` }
       });
@@ -537,7 +539,7 @@
       if (putRes.ok) {
         const resData = await putRes.json();
         currentFileSha = resData.content.sha;
-        alert("GitHubへ正常に同期保存（コミット）されました！他のメンバーも最新状態を閲覧可能です。");
+        alert("GitHubへ正常に同期保存（コミット）されました！");
         document.getElementById('syncStatus').innerText = 'GitHubと同期完了 (' + new Date().toLocaleTimeString() + ')';
         document.getElementById('syncStatus').style.color = 'var(--success)';
       } else {
@@ -553,13 +555,8 @@
     }
   }
 
-  // 設定モーダル
-  function openConfigModal() {
-    document.getElementById('configModal').style.display = 'flex';
-  }
-  function closeConfigModal() {
-    document.getElementById('configModal').style.display = 'none';
-  }
+  function openConfigModal() { document.getElementById('configModal').style.display = 'flex'; }
+  function closeConfigModal() { document.getElementById('configModal').style.display = 'none'; }
   function saveGitHubConfig() {
     localStorage.setItem('gh_owner', document.getElementById('cfgOwner').value.trim());
     localStorage.setItem('gh_repo', document.getElementById('cfgRepo').value.trim());
@@ -649,7 +646,7 @@
         <td><input type="text" class="inline-input font-bold" value="${typeVal}" onchange="updateEventField(${i}, 'type', this.value)"></td>
         <td><input type="text" class="inline-input text-center" value="${ev.round || ''}" onchange="updateEventField(${i}, 'round', this.value)"></td>
         <td><input type="text" class="inline-input" value="${ev.date || ''}" onchange="updateEventField(${i}, 'date', this.value)"></td>
-        <td><input type="text" class="inline-input" value="${agendaVal}" onchange="updateEventField(${i}, 'agenda', this.value)"></td>
+        <td><textarea class="inline-textarea" onchange="updateEventField(${i}, 'agenda', this.value)">${agendaVal}</textarea></td>
         <td class="text-center">
           <select class="status-badge-select status-${ev.status}" onchange="updateEventStatus(${i}, this.value)">
             <option value="done" ${ev.status==='done'?'selected':''}>${dict[currentLang].statusDone}</option>
@@ -702,7 +699,7 @@
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><input type="text" class="inline-input" value="${itemVal}" onchange="updateBudgetField(${i}, 'item', this.value)"></td>
+        <td><textarea class="inline-textarea" onchange="updateBudgetField(${i}, 'item', this.value)">${itemVal}</textarea></td>
         <td><input type="number" class="inline-input text-right font-bold" value="${b.amount || 0}" onchange="updateBudgetField(${i}, 'amount', this.value)"></td>
         <td class="text-center">
           <select class="status-badge-select status-${b.status}" onchange="updateBudgetStatus(${i}, this.value)">
@@ -746,6 +743,7 @@
     }
   }
 
+  // 3. タスクテーブル（textareaによる自動折り返し）
   function renderTasks() {
     const tbody = document.getElementById('tasksTableBody');
     tbody.innerHTML = "";
@@ -757,7 +755,7 @@
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><input type="text" class="inline-input font-bold" value="${deptVal}" onchange="updateTaskField(${i}, 'dept', this.value)"></td>
-        <td><input type="text" class="inline-input" value="${taskVal}" onchange="updateTaskField(${i}, 'task', this.value)"></td>
+        <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'task', this.value)">${taskVal}</textarea></td>
         <td><input type="text" class="inline-input text-center" value="${t.due || ''}" onchange="updateTaskField(${i}, 'due', this.value)"></td>
         <td class="text-center">
           <select class="status-badge-select status-${t.status}" onchange="updateTaskStatus(${i}, this.value)">
@@ -766,7 +764,7 @@
             <option value="todo" ${t.status==='todo'?'selected':''}>${dict[currentLang].statusTodo}</option>
           </select>
         </td>
-        <td><input type="text" class="inline-input" value="${noteVal}" onchange="updateTaskField(${i}, 'note', this.value)"></td>
+        <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'note', this.value)">${noteVal}</textarea></td>
         <td class="text-center"><button class="btn-del" onclick="deleteTask(${i})">×</button></td>
       `;
       tbody.appendChild(tr);
