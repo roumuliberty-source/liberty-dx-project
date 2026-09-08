@@ -138,9 +138,33 @@
 
   .table-wrapper { overflow-x: auto; }
   .data-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
-  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: left; vertical-align: top; }
+  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 6px; text-align: left; vertical-align: top; }
   .data-table th { background-color: var(--primary-light); color: var(--primary); font-weight: 600; text-align: center; }
   
+  /* ドラッグ＆ドロップ用スタイル */
+  tr.draggable-row { cursor: move; }
+  tr.draggable-row.dragging { opacity: 0.4; background-color: #e0f2fe; }
+  tr.drag-over { border-top: 3px solid var(--primary) !important; }
+
+  .order-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-move {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 10px;
+    cursor: pointer;
+    line-height: 1;
+    color: #475569;
+  }
+  .btn-move:hover { background: #e2e8f0; color: var(--primary); }
+
   .inline-input {
     width: 100%;
     padding: 4px 6px;
@@ -153,7 +177,6 @@
   .inline-input:hover { border-color: #cbd5e1; background: #ffffff; }
   .inline-input:focus { border-color: var(--primary); background: #ffffff; outline: none; }
 
-  /* 複数行テキストエリア */
   .inline-textarea {
     width: 100%;
     padding: 4px 6px;
@@ -163,7 +186,7 @@
     font-family: inherit;
     background: transparent;
     resize: vertical;
-    min-height: 48px;
+    min-height: 44px;
     line-height: 1.45;
     word-break: break-word;
   }
@@ -175,19 +198,20 @@
   .font-bold { font-weight: bold; }
 
   .status-badge-select {
-    padding: 4px 8px;
+    padding: 4px 6px;
     border-radius: 4px;
     font-size: 11px;
     font-weight: bold;
     border: none;
     cursor: pointer;
+    width: 100%;
   }
   .status-done { background: #d4edda; color: #155724; }
   .status-wip { background: #fff3cd; color: #856404; }
   .status-todo { background: #e2e8f0; color: #475569; }
 
   .btn-del {
-    color: var(--danger); background: none; border: none; cursor: pointer; font-weight: bold; font-size: 14px;
+    color: var(--danger); background: none; border: none; cursor: pointer; font-weight: bold; font-size: 15px;
   }
   .btn-del:hover { color: #a71d2a; }
 
@@ -225,6 +249,7 @@
   <div class="control-bar">
     <div style="font-size:12px; color:var(--text-muted);" id="txtDbStatus">
       🌐 接続状況: <span id="syncStatus" class="font-bold text-primary">オフライン / ローカル動作中</span>
+      <span style="font-size:11px; margin-left:12px; color:#64748b;">※各行の「▲/▼」または行全体をドラッグ＆ドロップで並び替えできます</span>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <button class="btn btn-success" onclick="syncToGitHub()" id="btnSync">☁️ GitHubへ同期保存</button>
@@ -259,21 +284,24 @@
   </div>
 
   <div class="dashboard-grid">
+    
+    <!-- 左：イベント一覧 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
-        <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（編集可能）</span>
+        <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（並び替え・編集可能）</span>
         <button class="btn btn-primary" onclick="addEventRow()" id="btnAddEvent">＋ 追加</button>
       </div>
       <div class="table-wrapper">
-        <table class="data-table">
+        <table class="data-table" id="tableEvents">
           <thead>
             <tr>
+              <th style="width: 6%;">順</th>
               <th style="width: 14%;" id="thEvType">区分</th>
               <th style="width: 10%;" id="thEvRound">回次</th>
-              <th style="width: 18%;" id="thEvDate">時期・日程</th>
-              <th style="width: 38%;" id="thEvAgenda">アジェンダ・内容</th>
-              <th style="width: 14%;" id="thEvStatus">状況</th>
-              <th style="width: 6%;"></th>
+              <th style="width: 17%;" id="thEvDate">時期・日程</th>
+              <th style="width: 35%;" id="thEvAgenda">アジェンダ・内容</th>
+              <th style="width: 13%;" id="thEvStatus">状況</th>
+              <th style="width: 5%;"></th>
             </tr>
           </thead>
           <tbody id="eventsTableBody"></tbody>
@@ -281,28 +309,30 @@
       </div>
     </div>
 
+    <!-- 右：補助金使途 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
-        <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（編集可能）</span>
+        <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（並び替え・編集可能）</span>
         <button class="btn btn-primary" onclick="addBudgetRow()" id="btnAddBudget">＋ 追加</button>
       </div>
       <div style="height: 160px; margin-bottom: 12px;">
         <canvas id="budgetChart"></canvas>
       </div>
       <div class="table-wrapper">
-        <table class="data-table">
+        <table class="data-table" id="tableBudgets">
           <thead>
             <tr>
-              <th style="width: 40%;" id="thBgItem">費目 / 対象</th>
-              <th style="width: 28%;" id="thBgAmount">金額 (円)</th>
-              <th style="width: 22%;" id="thBgStatus">執行状況</th>
-              <th style="width: 10%;"></th>
+              <th style="width: 8%;">順</th>
+              <th style="width: 38%;" id="thBgItem">費目 / 対象</th>
+              <th style="width: 26%;" id="thBgAmount">金額 (円)</th>
+              <th style="width: 20%;" id="thBgStatus">執行状況</th>
+              <th style="width: 8%;"></th>
             </tr>
           </thead>
           <tbody id="budgetTableBody"></tbody>
           <tfoot>
             <tr style="background:#f8fafc; font-weight:bold;">
-              <td class="text-center" id="lblBgTotal">合計金額</td>
+              <td colspan="2" class="text-center" id="lblBgTotal">合計金額</td>
               <td class="text-right" id="valBgTotal">¥0</td>
               <td colspan="2" style="font-size:11px; color:#64748b;" id="lblBgLimit">（上限30万）</td>
             </tr>
@@ -310,23 +340,25 @@
         </table>
       </div>
     </div>
+
   </div>
 
-  <!-- 下段：社内横断タスクボード（列幅と複数行入力を最適化） -->
+  <!-- 下段：社内横断タスクボード -->
   <div class="card">
     <div class="card-header">
-      <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（編集可能）</span>
+      <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（並び替え・編集可能）</span>
       <button class="btn btn-primary" onclick="addTaskRow()" id="btnAddTask">＋ タスク追加</button>
     </div>
     <div class="table-wrapper">
-      <table class="data-table">
+      <table class="data-table" id="tableTasks">
         <thead>
           <tr>
-            <th style="width: 11%;" id="thTkDept">担当部署</th>
+            <th style="width: 5%;">順</th>
+            <th style="width: 12%;" id="thTkDept">担当部署</th>
             <th style="width: 32%;" id="thTkTask">主要タスク・連携事項</th>
             <th style="width: 9%;" id="thTkDue">期日</th>
-            <th style="width: 11%;" id="thTkStatus">ステータス</th>
-            <th style="width: 33%;" id="thTkNotes">備考 / 次のアクション</th>
+            <th style="width: 10%;" id="thTkStatus">ステータス</th>
+            <th style="width: 28%;" id="thTkNotes">備考 / 次のアクション</th>
             <th style="width: 4%;"></th>
           </tr>
         </thead>
@@ -370,6 +402,8 @@
   let currentLang = 'ja';
   let budgetChartInstance = null;
   let currentFileSha = null;
+  let dragSrcEl = null;
+  let dragCategory = null;
 
   const defaultData = {
     events: [
@@ -408,11 +442,11 @@
       kpiVisit: "② 現場訪問コンサルティング",
       kpiSubsidy: "③ DX補助金 予算執行",
       kpiTasks: "④ 社内タスク完了率",
-      eventsTitle: "伴走支援プログラム進捗（編集可能）",
+      eventsTitle: "伴走支援プログラム進捗（並び替え・編集可能）",
       addEvent: "＋ 追加",
-      budgetTitle: "DX促進補助金 想定使途（編集可能）",
+      budgetTitle: "DX促進補助金 想定使途（並び替え・編集可能）",
       addBudget: "＋ 追加",
-      tasksTitle: "社内横断タスク推進ボード（編集可能）",
+      tasksTitle: "社内横断タスク推進ボード（並び替え・編集可能）",
       addTask: "＋ タスク追加",
       thType: "区分", thRound: "回次", thDate: "時期・日程", thAgenda: "アジェンダ・内容", thStatus: "状況",
       thItem: "費目 / 対象", thAmount: "金額 (円)", thStatusBg: "執行状況",
@@ -431,11 +465,11 @@
       kpiVisit: "② On-site Consultation",
       kpiSubsidy: "③ Subsidy Execution",
       kpiTasks: "④ Internal Tasks Completion",
-      eventsTitle: "Mentoring Roadmap (Editable)",
+      eventsTitle: "Mentoring Roadmap (Sortable & Editable)",
       addEvent: "+ Add",
-      budgetTitle: "Subsidy Allocation (Editable)",
+      budgetTitle: "Subsidy Allocation (Sortable & Editable)",
       addBudget: "+ Add",
-      tasksTitle: "Task Board (Editable)",
+      tasksTitle: "Task Board (Sortable & Editable)",
       addTask: "+ Add Task",
       thType: "Type", thRound: "Round", thDate: "Schedule", thAgenda: "Agenda & Details", thStatus: "Status",
       thItem: "Expense Item / Purpose", thAmount: "Amount (JPY)", thStatusBg: "Status",
@@ -522,7 +556,7 @@
       const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
 
       const body = {
-        message: `Update ${path} via Project Dashboard [skip ci]`,
+        message: `Update ${path} with sorted tasks via PM Dashboard [skip ci]`,
         content: encodedContent,
         sha: currentFileSha || undefined
       };
@@ -539,7 +573,7 @@
       if (putRes.ok) {
         const resData = await putRes.json();
         currentFileSha = resData.content.sha;
-        alert("GitHubへ正常に同期保存（コミット）されました！");
+        alert("並び順を含めてGitHubへ正常に同期保存（コミット）されました！");
         document.getElementById('syncStatus').innerText = 'GitHubと同期完了 (' + new Date().toLocaleTimeString() + ')';
         document.getElementById('syncStatus').style.color = 'var(--success)';
       } else {
@@ -634,6 +668,54 @@
     updateChart();
   }
 
+  // 並び替え用共通関数（ボタン移動）
+  function moveItem(category, index, direction) {
+    const list = appData[category];
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= list.length) return;
+    const temp = list[index];
+    list[index] = list[targetIndex];
+    list[targetIndex] = temp;
+    saveData();
+    renderAll();
+  }
+
+  // ドラッグ＆ドロップ共通ハンドラ
+  function attachDragEvents(row, category, index) {
+    row.setAttribute('draggable', 'true');
+    row.addEventListener('dragstart', (e) => {
+      dragSrcEl = row;
+      dragCategory = category;
+      e.dataTransfer.setData('text/plain', index);
+      row.classList.add('dragging');
+    });
+    row.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (dragCategory === category) row.classList.add('drag-over');
+    });
+    row.addEventListener('dragleave', () => {
+      row.classList.remove('drag-over');
+    });
+    row.addEventListener('dragend', () => {
+      row.classList.remove('dragging');
+      document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    });
+    row.addEventListener('drop', (e) => {
+      e.stopPropagation();
+      row.classList.remove('drag-over');
+      if (dragCategory !== category) return;
+      const srcIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+      const targetIndex = index;
+      if (srcIndex !== targetIndex) {
+        const movedItem = appData[category].splice(srcIndex, 1)[0];
+        appData[category].splice(targetIndex, 0, movedItem);
+        saveData();
+        renderAll();
+      }
+    });
+  }
+
+  // 1. イベント描画
   function renderEvents() {
     const tbody = document.getElementById('eventsTableBody');
     tbody.innerHTML = "";
@@ -642,7 +724,14 @@
       const agendaVal = currentLang === 'ja' ? (ev.agenda || '') : (ev.agenda_en || ev.agenda || '');
 
       const tr = document.createElement('tr');
+      tr.className = 'draggable-row';
       tr.innerHTML = `
+        <td class="text-center">
+          <div class="order-controls">
+            <button class="btn-move" onclick="moveItem('events', ${i}, -1)" ${i===0?'disabled style="opacity:0.3;"':''}>▲</button>
+            <button class="btn-move" onclick="moveItem('events', ${i}, 1)" ${i===appData.events.length-1?'disabled style="opacity:0.3;"':''}>▼</button>
+          </div>
+        </td>
         <td><input type="text" class="inline-input font-bold" value="${typeVal}" onchange="updateEventField(${i}, 'type', this.value)"></td>
         <td><input type="text" class="inline-input text-center" value="${ev.round || ''}" onchange="updateEventField(${i}, 'round', this.value)"></td>
         <td><input type="text" class="inline-input" value="${ev.date || ''}" onchange="updateEventField(${i}, 'date', this.value)"></td>
@@ -656,6 +745,7 @@
         </td>
         <td class="text-center"><button class="btn-del" onclick="deleteEvent(${i})">×</button></td>
       `;
+      attachDragEvents(tr, 'events', i);
       tbody.appendChild(tr);
     });
   }
@@ -688,6 +778,7 @@
     }
   }
 
+  // 2. 予算描画
   function renderBudgets() {
     const tbody = document.getElementById('budgetTableBody');
     tbody.innerHTML = "";
@@ -698,7 +789,14 @@
       const itemVal = currentLang === 'ja' ? (b.item || '') : (b.item_en || b.item || '');
 
       const tr = document.createElement('tr');
+      tr.className = 'draggable-row';
       tr.innerHTML = `
+        <td class="text-center">
+          <div class="order-controls">
+            <button class="btn-move" onclick="moveItem('budgets', ${i}, -1)" ${i===0?'disabled style="opacity:0.3;"':''}>▲</button>
+            <button class="btn-move" onclick="moveItem('budgets', ${i}, 1)" ${i===appData.budgets.length-1?'disabled style="opacity:0.3;"':''}>▼</button>
+          </div>
+        </td>
         <td><textarea class="inline-textarea" onchange="updateBudgetField(${i}, 'item', this.value)">${itemVal}</textarea></td>
         <td><input type="number" class="inline-input text-right font-bold" value="${b.amount || 0}" onchange="updateBudgetField(${i}, 'amount', this.value)"></td>
         <td class="text-center">
@@ -710,6 +808,7 @@
         </td>
         <td class="text-center"><button class="btn-del" onclick="deleteBudget(${i})">×</button></td>
       `;
+      attachDragEvents(tr, 'budgets', i);
       tbody.appendChild(tr);
     });
 
@@ -743,7 +842,7 @@
     }
   }
 
-  // 3. タスクテーブル（textareaによる自動折り返し）
+  // 3. タスク描画
   function renderTasks() {
     const tbody = document.getElementById('tasksTableBody');
     tbody.innerHTML = "";
@@ -753,7 +852,14 @@
       const noteVal = currentLang === 'ja' ? (t.note || '') : (t.note_en || t.note || '');
 
       const tr = document.createElement('tr');
+      tr.className = 'draggable-row';
       tr.innerHTML = `
+        <td class="text-center">
+          <div class="order-controls">
+            <button class="btn-move" onclick="moveItem('tasks', ${i}, -1)" ${i===0?'disabled style="opacity:0.3;"':''}>▲</button>
+            <button class="btn-move" onclick="moveItem('tasks', ${i}, 1)" ${i===appData.tasks.length-1?'disabled style="opacity:0.3;"':''}>▼</button>
+          </div>
+        </td>
         <td><input type="text" class="inline-input font-bold" value="${deptVal}" onchange="updateTaskField(${i}, 'dept', this.value)"></td>
         <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'task', this.value)">${taskVal}</textarea></td>
         <td><input type="text" class="inline-input text-center" value="${t.due || ''}" onchange="updateTaskField(${i}, 'due', this.value)"></td>
@@ -767,6 +873,7 @@
         <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'note', this.value)">${noteVal}</textarea></td>
         <td class="text-center"><button class="btn-del" onclick="deleteTask(${i})">×</button></td>
       `;
+      attachDragEvents(tr, 'tasks', i);
       tbody.appendChild(tr);
     });
   }
