@@ -28,7 +28,6 @@
     padding-bottom: 50px;
   }
 
-  /* ヘッダー固定設定（sticky） */
   header {
     position: sticky;
     top: 0;
@@ -63,7 +62,7 @@
   .lang-btn.active { background: var(--primary); color: #ffffff; }
 
   .container {
-    max-width: 1440px;
+    max-width: 1480px;
     margin: 16px auto;
     padding: 0 16px;
   }
@@ -121,7 +120,7 @@
 
   .dashboard-grid {
     display: grid;
-    grid-template-columns: 1.8fr 1.2fr;
+    grid-template-columns: 1.85fr 1.15fr;
     gap: 16px;
     margin-bottom: 16px;
   }
@@ -285,23 +284,24 @@
 
   <div class="dashboard-grid">
     
-    <!-- 左：イベント一覧 -->
+    <!-- 左：イベント一覧（参加者欄を追加） -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
-        <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（ドラッグ並び替え可能）</span>
+        <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（参加者管理・ドラッグ並び替え可能）</span>
         <button class="btn btn-primary" onclick="addEventRow()" id="btnAddEvent">＋ 追加</button>
       </div>
       <div class="table-wrapper">
         <table class="data-table" id="tableEvents">
           <thead>
             <tr>
-              <th style="width: 5%;"></th>
-              <th style="width: 14%;" id="thEvType">区分</th>
-              <th style="width: 10%;" id="thEvRound">回次</th>
-              <th style="width: 17%;" id="thEvDate">時期・日程</th>
-              <th style="width: 36%;" id="thEvAgenda">アジェンダ・内容</th>
-              <th style="width: 13%;" id="thEvStatus">状況</th>
-              <th style="width: 5%;"></th>
+              <th style="width: 4%;"></th>
+              <th style="width: 12%;" id="thEvType">区分</th>
+              <th style="width: 9%;" id="thEvRound">回次</th>
+              <th style="width: 14%;" id="thEvDate">時期・日程</th>
+              <th style="width: 31%;" id="thEvAgenda">アジェンダ・内容</th>
+              <th style="width: 16%;" id="thEvAttendees">参加者 / 同席者</th>
+              <th style="width: 10%;" id="thEvStatus">状況</th>
+              <th style="width: 4%;"></th>
             </tr>
           </thead>
           <tbody id="eventsTableBody"></tbody>
@@ -343,23 +343,24 @@
 
   </div>
 
-  <!-- 下段：社内横断タスクボード -->
+  <!-- 下段：社内横断タスクボード（対応者欄を追加） -->
   <div class="card">
     <div class="card-header">
-      <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（ドラッグ並び替え可能）</span>
+      <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（対応者管理・ドラッグ並び替え可能）</span>
       <button class="btn btn-primary" onclick="addTaskRow()" id="btnAddTask">＋ タスク追加</button>
     </div>
     <div class="table-wrapper">
       <table class="data-table" id="tableTasks">
         <thead>
           <tr>
-            <th style="width: 4%;"></th>
-            <th style="width: 12%;" id="thTkDept">担当部署</th>
-            <th style="width: 32%;" id="thTkTask">主要タスク・連携事項</th>
+            <th style="width: 3%;"></th>
+            <th style="width: 10%;" id="thTkDept">担当部署</th>
+            <th style="width: 10%;" id="thTkAssignee">対応者</th>
+            <th style="width: 29%;" id="thTkTask">主要タスク・連携事項</th>
             <th style="width: 9%;" id="thTkDue">期日</th>
             <th style="width: 10%;" id="thTkStatus">ステータス</th>
-            <th style="width: 29%;" id="thTkNotes">備考 / 次のアクション</th>
-            <th style="width: 4%;"></th>
+            <th style="width: 26%;" id="thTkNotes">備考 / 次のアクション</th>
+            <th style="width: 3%;"></th>
           </tr>
         </thead>
         <tbody id="tasksTableBody"></tbody>
@@ -408,16 +409,16 @@
 
   const defaultData = {
     events: [
-      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日", agenda: "生成AI時代の課題解決／目標設定ワーク", agenda_en: "GenAI Problem Solving & Goal Setting", status: "done" },
-      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日", agenda: "課題発見法・解決手段の選択法", agenda_en: "Issue Identification & Solution Selection", status: "wip" },
-      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "9月30日", agenda: "生成AIを活用したExcelマクロ", agenda_en: "Excel Macros with Generative AI", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "10月9日", agenda: "生成AIによる高速アプリ開発", agenda_en: "Rapid App Development with AI", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "10月19日", agenda: "製品選定と効果測定の基礎", agenda_en: "Product Selection & Metrics Basics", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月下旬", agenda: "現状データの棚卸しと要件整理", agenda_en: "Current Data Audit & Requirements", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月下旬", agenda: "データ突合方式の設計・補助金申請準備", agenda_en: "Data Matching Design & Subsidy Prep", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月中旬", agenda: "ダッシュボード初期版の実装・中間検証①", agenda_en: "Initial Dashboard Prototype Review ①", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "11月下旬", agenda: "実データでの検証・運用ルール策定", agenda_en: "Validation with Live Data & Rules", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月中旬", agenda: "最終納品・社内引き継ぎ・総括", agenda_en: "Final Delivery, Handover & Summary", status: "todo" }
+      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日", agenda: "生成AI時代の課題解決／目標設定ワーク", agenda_en: "GenAI Problem Solving & Goal Setting", attendees: "倉田、社内受講者", attendees_en: "Kurata, Attendees", status: "done" },
+      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日", agenda: "課題発見法・解決手段の選択法", agenda_en: "Issue Identification & Solution Selection", attendees: "倉田", attendees_en: "Kurata", status: "wip" },
+      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "9月30日", agenda: "生成AIを活用したExcelマクロ", agenda_en: "Excel Macros with Generative AI", attendees: "倉田、実務担当", attendees_en: "Kurata, Staff", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "10月9日", agenda: "生成AIによる高速アプリ開発", agenda_en: "Rapid App Development with AI", attendees: "倉田、システム担当", attendees_en: "Kurata, IT Staff", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "10月19日", agenda: "製品選定と効果測定の基礎", agenda_en: "Product Selection & Metrics Basics", attendees: "倉田、役員", attendees_en: "Kurata, Board", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月下旬", agenda: "現状データの棚卸しと要件整理", agenda_en: "Current Data Audit & Requirements", attendees: "倉田、WEB担当、NTTデータFT様", attendees_en: "Kurata, Web, NTT Data FT", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月下旬", agenda: "データ突合方式の設計・補助金申請準備", agenda_en: "Data Matching Design & Subsidy Prep", attendees: "倉田、システム部、NTTデータFT様", attendees_en: "Kurata, IT, NTT Data FT", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月中旬", agenda: "ダッシュボード初期版の実装・中間検証①", agenda_en: "Initial Dashboard Prototype Review ①", attendees: "倉田、営業部、NTTデータFT様", attendees_en: "Kurata, Sales, NTT Data FT", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "11月下旬", agenda: "実データでの検証・運用ルール策定", agenda_en: "Validation with Live Data & Rules", attendees: "プロジェクト関係者全員", attendees_en: "All Stakeholders", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月中旬", agenda: "最終納品・社内引き継ぎ・総括", agenda_en: "Final Delivery, Handover & Summary", attendees: "倉田、役員、NTTデータFT様", attendees_en: "Kurata, Board, NTT Data FT", status: "todo" }
     ],
     budgets: [
       { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, status: "todo" },
@@ -425,11 +426,11 @@
       { item: "備品：社内検証用ツールライセンス", item_en: "Tools: Internal Testing Licenses", amount: 80000, status: "todo" }
     ],
     tasks: [
-      { dept: "営業部", dept_en: "Sales", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", task_en: "Share joint project proposal & gather requirements", due: "9月中旬", status: "wip", note: "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ", note_en: "Align report card items" },
-      { dept: "WEB担当", dept_en: "Web", task: "共同ポータル・各施設HPの計測タグ整理", task_en: "Organize tracking tags on portal & sites", due: "9月下旬", status: "wip", note: "GA4閲覧権限の確認および共同ポータル経由送客のUTMパラメータ命名規則を策定", note_en: "Prep data for Visit #1" },
-      { dept: "システム部", dept_en: "IT", task: "予約成約データ（CSV）の抽出・突合仕様確認", task_en: "Verify reservation CSV export format", due: "10月上旬", status: "todo", note: "予約システム側の成約データ形式（CSV）を確認し、手動/自動突合の仕様を相談", note_en: "Check feasibility of conversion tags" },
-      { dept: "旅館部", dept_en: "Hotel Ops", task: "公式予約限定特典（直販インセンティブ）の選定", task_en: "Gather feedback on official direct booking perks", due: "10月中旬", status: "todo", note: "OTA経由よりも公式予約を選んでもらうための特典（館内利用券等）の現場ヒアリング", note_en: "Coordinate with sales plan" },
-      { dept: "事務局(倉田)", dept_en: "PMO", task: "明日セミナー（NTTデータFT様）での要件すり合わせ", task_en: "Align requirements at Seminar #2", due: "9月9日", status: "wip", note: "共同直販モデル（広告費×送客×成約突合）を伴走支援の主題として提示・相談", note_en: "Present joint direct model at Seminar #2" }
+      { dept: "営業部", dept_en: "Sales", assignee: "営業担当", assignee_en: "Sales Rep", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", task_en: "Share joint project proposal & gather requirements", due: "9月中旬", status: "wip", note: "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ", note_en: "Align report card items" },
+      { dept: "WEB担当", dept_en: "Web", assignee: "WEB主担当", assignee_en: "Web Lead", task: "共同ポータル・各施設HPの計測タグ整理", task_en: "Organize tracking tags on portal & sites", due: "9月下旬", status: "wip", note: "GA4閲覧権限の確認および共同ポータル経由送客のUTMパラメータ命名規則を策定", note_en: "Prep data for Visit #1" },
+      { dept: "システム部", dept_en: "IT", assignee: "システム担当", assignee_en: "IT Lead", task: "予約成約データ（CSV）の抽出・突合仕様確認", task_en: "Verify reservation CSV export format", due: "10月上旬", status: "todo", note: "予約システム側の成約データ形式（CSV）を確認し、手動/自動突合の仕様を相談", note_en: "Check feasibility of conversion tags" },
+      { dept: "旅館部", dept_en: "Hotel Ops", assignee: "現場責任者", assignee_en: "Hotel Manager", task: "公式予約限定特典（直販インセンティブ）の選定", task_en: "Gather feedback on official direct booking perks", due: "10月中旬", status: "todo", note: "OTA経由よりも公式予約を選んでもらうための特典（館内利用券等）の現場ヒアリング", note_en: "Coordinate with sales plan" },
+      { dept: "事務局(倉田)", dept_en: "PMO", assignee: "倉田", assignee_en: "Kurata", task: "明日セミナー（NTTデータFT様）での要件すり合わせ", task_en: "Align requirements at Seminar #2", due: "9月9日", status: "wip", note: "共同直販モデル（広告費×送客×成約突合）を伴走支援の主題として提示・相談", note_en: "Present joint direct model at Seminar #2" }
     ]
   };
 
@@ -443,15 +444,15 @@
       kpiVisit: "② 現場訪問コンサルティング",
       kpiSubsidy: "③ DX補助金 予算執行",
       kpiTasks: "④ 社内タスク完了率",
-      eventsTitle: "伴走支援プログラム進捗（ドラッグ並び替え可能）",
+      eventsTitle: "伴走支援プログラム進捗（参加者管理・ドラッグ並び替え可能）",
       addEvent: "＋ 追加",
       budgetTitle: "DX促進補助金 想定使途（ドラッグ並び替え可能）",
       addBudget: "＋ 追加",
-      tasksTitle: "社内横断タスク推進ボード（ドラッグ並び替え可能）",
+      tasksTitle: "社内横断タスク推進ボード（対応者管理・ドラッグ並び替え可能）",
       addTask: "＋ タスク追加",
-      thType: "区分", thRound: "回次", thDate: "時期・日程", thAgenda: "アジェンダ・内容", thStatus: "状況",
+      thType: "区分", thRound: "回次", thDate: "時期・日程", thAgenda: "アジェンダ・内容", thAttendees: "参加者 / 同席者", thStatus: "状況",
       thItem: "費目 / 対象", thAmount: "金額 (円)", thStatusBg: "執行状況",
-      thDept: "担当部署", thTask: "主要タスク・連携事項", thDue: "期日", thNotes: "備考 / 次のアクション",
+      thDept: "担当部署", thAssignee: "対応者", thTask: "主要タスク・連携事項", thDue: "期日", thNotes: "備考 / 次のアクション",
       bgTotal: "合計金額", bgLimit: "（上限30万）",
       btnSync: "☁️ GitHubへ同期保存",
       btnImport: "📥 JSONインポート",
@@ -466,15 +467,15 @@
       kpiVisit: "② On-site Consultation",
       kpiSubsidy: "③ Subsidy Execution",
       kpiTasks: "④ Internal Tasks Completion",
-      eventsTitle: "Mentoring Roadmap (Drag to Sort)",
+      eventsTitle: "Mentoring Roadmap (Attendees & Drag to Sort)",
       addEvent: "+ Add",
       budgetTitle: "Subsidy Allocation (Drag to Sort)",
       addBudget: "+ Add",
-      tasksTitle: "Task Board (Drag to Sort)",
+      tasksTitle: "Task Board (Assignees & Drag to Sort)",
       addTask: "+ Add Task",
-      thType: "Type", thRound: "Round", thDate: "Schedule", thAgenda: "Agenda & Details", thStatus: "Status",
+      thType: "Type", thRound: "Round", thDate: "Schedule", thAgenda: "Agenda & Details", thAttendees: "Attendees", thStatus: "Status",
       thItem: "Expense Item / Purpose", thAmount: "Amount (JPY)", thStatusBg: "Status",
-      thDept: "Dept", thTask: "Key Task / Action", thDue: "Due Date", thNotes: "Notes / Next Action",
+      thDept: "Dept", thAssignee: "Assignee", thTask: "Key Task / Action", thDue: "Due Date", thNotes: "Notes / Next Action",
       bgTotal: "Total Amount", bgLimit: "(Cap: ¥300k)",
       btnSync: "☁️ Sync to GitHub",
       btnImport: "📥 Import JSON",
@@ -557,7 +558,7 @@
       const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
 
       const body = {
-        message: `Update ${path} via PM Dashboard [skip ci]`,
+        message: `Update ${path} with attendees and assignees [skip ci]`,
         content: encodedContent,
         sha: currentFileSha || undefined
       };
@@ -574,7 +575,7 @@
       if (putRes.ok) {
         const resData = await putRes.json();
         currentFileSha = resData.content.sha;
-        alert("並び順を含めてGitHubへ正常に同期保存（コミット）されました！");
+        alert("参加者・対応者情報を含めてGitHubへ正常に同期保存（コミット）されました！");
         document.getElementById('syncStatus').innerText = 'GitHubと同期完了 (' + new Date().toLocaleTimeString() + ')';
         document.getElementById('syncStatus').style.color = 'var(--success)';
       } else {
@@ -635,6 +636,7 @@
     document.getElementById('thEvRound').innerText = t.thRound;
     document.getElementById('thEvDate').innerText = t.thDate;
     document.getElementById('thEvAgenda').innerText = t.thAgenda;
+    document.getElementById('thEvAttendees').innerText = t.thAttendees;
     document.getElementById('thEvStatus').innerText = t.thStatus;
 
     document.getElementById('thBgItem').innerText = t.thItem;
@@ -644,6 +646,7 @@
     document.getElementById('lblBgLimit').innerText = t.bgLimit;
 
     document.getElementById('thTkDept').innerText = t.thDept;
+    document.getElementById('thTkAssignee').innerText = t.thAssignee;
     document.getElementById('thTkTask').innerText = t.thTask;
     document.getElementById('thTkDue').innerText = t.thDue;
     document.getElementById('thTkStatus').innerText = t.thStatus;
@@ -724,12 +727,14 @@
     });
   }
 
+  // 1. イベント描画（参加者欄付き）
   function renderEvents() {
     const tbody = document.getElementById('eventsTableBody');
     tbody.innerHTML = "";
     appData.events.forEach((ev, i) => {
       const typeVal = currentLang === 'ja' ? (ev.type || '') : (ev.type_en || ev.type || '');
       const agendaVal = currentLang === 'ja' ? (ev.agenda || '') : (ev.agenda_en || ev.agenda || '');
+      const attVal = currentLang === 'ja' ? (ev.attendees || '') : (ev.attendees_en || ev.attendees || '');
 
       const tr = document.createElement('tr');
       tr.className = 'draggable-row';
@@ -739,6 +744,7 @@
         <td><input type="text" class="inline-input text-center" value="${ev.round || ''}" onchange="updateEventField(${i}, 'round', this.value)"></td>
         <td><input type="text" class="inline-input" value="${ev.date || ''}" onchange="updateEventField(${i}, 'date', this.value)"></td>
         <td><textarea class="inline-textarea" onchange="updateEventField(${i}, 'agenda', this.value)">${agendaVal}</textarea></td>
+        <td><textarea class="inline-textarea" placeholder="例: 倉田、WEB担当" onchange="updateEventField(${i}, 'attendees', this.value)">${attVal}</textarea></td>
         <td class="text-center">
           <select class="status-badge-select status-${ev.status}" onchange="updateEventStatus(${i}, this.value)">
             <option value="done" ${ev.status==='done'?'selected':''}>${dict[currentLang].statusDone}</option>
@@ -758,6 +764,8 @@
       if (currentLang === 'ja') appData.events[idx].type = val; else appData.events[idx].type_en = val;
     } else if (field === 'agenda') {
       if (currentLang === 'ja') appData.events[idx].agenda = val; else appData.events[idx].agenda_en = val;
+    } else if (field === 'attendees') {
+      if (currentLang === 'ja') appData.events[idx].attendees = val; else appData.events[idx].attendees_en = val;
     } else {
       appData.events[idx][field] = val;
     }
@@ -769,7 +777,7 @@
     saveData();
   }
   function addEventRow() {
-    appData.events.push({ type: "セミナー", type_en: "Seminar", round: `第${appData.events.length+1}回`, date: "日程調整中", agenda: "新規テーマ", agenda_en: "New Topic", status: "todo" });
+    appData.events.push({ type: "セミナー", type_en: "Seminar", round: `第${appData.events.length+1}回`, date: "日程調整中", agenda: "新規テーマ", agenda_en: "New Topic", attendees: "", attendees_en: "", status: "todo" });
     renderEvents();
     saveData();
   }
@@ -781,6 +789,7 @@
     }
   }
 
+  // 2. 予算描画
   function renderBudgets() {
     const tbody = document.getElementById('budgetTableBody');
     tbody.innerHTML = "";
@@ -839,11 +848,13 @@
     }
   }
 
+  // 3. タスク描画（対応者欄付き）
   function renderTasks() {
     const tbody = document.getElementById('tasksTableBody');
     tbody.innerHTML = "";
     appData.tasks.forEach((t, i) => {
       const deptVal = currentLang === 'ja' ? (t.dept || '') : (t.dept_en || t.dept || '');
+      const assVal = currentLang === 'ja' ? (t.assignee || '') : (t.assignee_en || t.assignee || '');
       const taskVal = currentLang === 'ja' ? (t.task || '') : (t.task_en || t.task || '');
       const noteVal = currentLang === 'ja' ? (t.note || '') : (t.note_en || t.note || '');
 
@@ -852,6 +863,7 @@
       tr.innerHTML = `
         <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
         <td><input type="text" class="inline-input font-bold" value="${deptVal}" onchange="updateTaskField(${i}, 'dept', this.value)"></td>
+        <td><input type="text" class="inline-input text-center" placeholder="担当者名" value="${assVal}" onchange="updateTaskField(${i}, 'assignee', this.value)"></td>
         <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'task', this.value)">${taskVal}</textarea></td>
         <td><input type="text" class="inline-input text-center" value="${t.due || ''}" onchange="updateTaskField(${i}, 'due', this.value)"></td>
         <td class="text-center">
@@ -872,6 +884,8 @@
   function updateTaskField(idx, field, val) {
     if (field === 'dept') {
       if (currentLang === 'ja') appData.tasks[idx].dept = val; else appData.tasks[idx].dept_en = val;
+    } else if (field === 'assignee') {
+      if (currentLang === 'ja') appData.tasks[idx].assignee = val; else appData.tasks[idx].assignee_en = val;
     } else if (field === 'task') {
       if (currentLang === 'ja') appData.tasks[idx].task = val; else appData.tasks[idx].task_en = val;
     } else if (field === 'note') {
@@ -887,7 +901,7 @@
     saveData();
   }
   function addTaskRow() {
-    appData.tasks.push({ dept: "担当部署", dept_en: "Department", task: "新規連携タスク", task_en: "New Collaboration Task", due: "月末", status: "todo", note: "-", note_en: "-" });
+    appData.tasks.push({ dept: "担当部署", dept_en: "Department", assignee: "", assignee_en: "", task: "新規連携タスク", task_en: "New Collaboration Task", due: "月末", status: "todo", note: "-", note_en: "-" });
     renderTasks();
     saveData();
   }
