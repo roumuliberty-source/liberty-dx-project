@@ -28,6 +28,7 @@
     padding-bottom: 50px;
   }
 
+  /* ヘッダー固定 */
   header {
     position: sticky;
     top: 0;
@@ -61,6 +62,7 @@
   }
   .lang-btn.active { background: var(--primary); color: #ffffff; }
 
+  /* 画面幅ワイド設計 */
   .container {
     width: 98%;
     max-width: 1800px;
@@ -143,7 +145,7 @@
 
   .table-wrapper { overflow-x: auto; }
   .data-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
-  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 7px 6px; text-align: left; vertical-align: top; }
+  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 6px 4px; text-align: left; vertical-align: top; }
   .data-table th { background-color: var(--primary-light); color: var(--primary); font-weight: 600; text-align: center; }
   
   .drag-handle {
@@ -165,6 +167,7 @@
   tr.drag-over-top { border-top: 3px solid var(--primary) !important; }
   tr.drag-over-bottom { border-bottom: 3px solid var(--primary) !important; }
 
+  /* 入力欄 */
   .inline-input {
     width: 100%;
     padding: 4px 6px;
@@ -173,6 +176,10 @@
     font-size: 12px;
     font-family: inherit;
     background: transparent;
+  }
+  .inline-input.text-center {
+    text-align: center;
+    padding: 4px 1px;
   }
   .inline-input:hover { border-color: #cbd5e1; background: #ffffff; }
   .inline-input:focus { border-color: var(--primary); background: #ffffff; outline: none; }
@@ -198,7 +205,7 @@
   .font-bold { font-weight: bold; }
 
   .status-badge-select {
-    padding: 4px 6px;
+    padding: 4px 4px;
     border-radius: 4px;
     font-size: 11px;
     font-weight: bold;
@@ -285,6 +292,7 @@
 
   <div class="dashboard-grid">
     
+    <!-- 左：イベント一覧（時期・日程列を13%→17%へ拡張） -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（参加者管理・ドラッグ並び替え可能）</span>
@@ -295,12 +303,12 @@
           <thead>
             <tr>
               <th style="width: 3.5%;"></th>
-              <th style="width: 11%;" id="thEvType">区分</th>
-              <th style="width: 8%;" id="thEvRound">回次</th>
-              <th style="width: 13%;" id="thEvDate">時期・日程</th>
-              <th style="width: 32%;" id="thEvAgenda">アジェンダ・内容</th>
-              <th style="width: 18%;" id="thEvAttendees">参加者 / 同席者</th>
-              <th style="width: 10.5%;" id="thEvStatus">状況</th>
+              <th style="width: 10.5%;" id="thEvType">区分</th>
+              <th style="width: 9%;" id="thEvRound">回次</th>
+              <th style="width: 17%;" id="thEvDate">時期・日程</th>
+              <th style="width: 29%;" id="thEvAgenda">アジェンダ・内容</th>
+              <th style="width: 17%;" id="thEvAttendees">参加者 / 同席者</th>
+              <th style="width: 10%;" id="thEvStatus">状況</th>
               <th style="width: 4%;"></th>
             </tr>
           </thead>
@@ -309,6 +317,7 @@
       </div>
     </div>
 
+    <!-- 右：補助金使途 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（担当者管理・ドラッグ並び替え可能）</span>
@@ -343,6 +352,7 @@
 
   </div>
 
+  <!-- 下段：社内横断タスクボード -->
   <div class="card">
     <div class="card-header">
       <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（対応者管理・ドラッグ並び替え可能）</span>
@@ -369,7 +379,7 @@
 
 </div>
 
-<!-- GitHub設定モーダル（オーナー名・リポジトリ名・ファイル名を最初から入力済みに固定） -->
+<!-- GitHub設定モーダル -->
 <div class="modal-overlay" id="configModal">
   <div class="modal-box">
     <h3>⚙️ GitHubリポジトリ連携設定</h3>
@@ -409,16 +419,16 @@
 
   const defaultData = {
     events: [
-      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日", agenda: "生成AI時代の課題解決／目標設定ワーク", agenda_en: "GenAI Problem Solving & Goal Setting", attendees: "倉田、社内受講者", attendees_en: "Kurata, Attendees", status: "done" },
-      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日", agenda: "課題発見法・解決手段の選択法", agenda_en: "Issue Identification & Solution Selection", attendees: "倉田", attendees_en: "Kurata", status: "wip" },
-      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "9月30日", agenda: "生成AIを活用したExcelマクロ", agenda_en: "Excel Macros with Generative AI", attendees: "倉田、実務担当", attendees_en: "Kurata, Staff", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "10月9日", agenda: "生成AIによる高速アプリ開発", agenda_en: "Rapid App Development with AI", attendees: "倉田、システム担当", attendees_en: "Kurata, IT Staff", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "10月19日", agenda: "製品選定と効果測定の基礎", agenda_en: "Product Selection & Metrics Basics", attendees: "倉田、役員", attendees_en: "Kurata, Board", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月下旬", agenda: "現状データの棚卸しと要件整理", agenda_en: "Current Data Audit & Requirements", attendees: "倉田、WEB担当、NTTデータFT様", attendees_en: "Kurata, Web, NTT Data FT", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月下旬", agenda: "データ突合方式の設計・補助金申請準備", agenda_en: "Data Matching Design & Subsidy Prep", attendees: "倉田、システム部、NTTデータFT様", attendees_en: "Kurata, IT, NTT Data FT", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月中旬", agenda: "ダッシュボード初期版の実装・中間検証①", agenda_en: "Initial Dashboard Prototype Review ①", attendees: "倉田、営業部、NTTデータFT様", attendees_en: "Kurata, Sales, NTT Data FT", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "11月下旬", agenda: "実データでの検証・運用ルール策定", agenda_en: "Validation with Live Data & Rules", attendees: "プロジェクト関係者全員", attendees_en: "All Stakeholders", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月中旬", agenda: "最終納品・社内引き継ぎ・総括", agenda_en: "Final Delivery, Handover & Summary", attendees: "倉田、役員、NTTデータFT様", attendees_en: "Kurata, Board, NTT Data FT", status: "todo" }
+      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日（金）", agenda: "生成AI時代の課題解決／目標設定ワーク", agenda_en: "GenAI Problem Solving & Goal Setting", attendees: "倉田、社内受講者", attendees_en: "Kurata, Attendees", status: "done" },
+      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日（水）", agenda: "課題発見法・解決手段の選択法", agenda_en: "Issue Identification & Solution Selection", attendees: "倉田", attendees_en: "Kurata", status: "wip" },
+      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "9月30日（水）", agenda: "生成AIを活用したExcelマクロ", agenda_en: "Excel Macros with Generative AI", attendees: "倉田、実務担当", attendees_en: "Kurata, Staff", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "10月9日（金）", agenda: "生成AIによる高速アプリ開発", agenda_en: "Rapid App Development with AI", attendees: "倉田、システム担当", attendees_en: "Kurata, IT Staff", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "10月19日（月）", agenda: "製品選定と効果測定の基礎", agenda_en: "Product Selection & Metrics Basics", attendees: "倉田、役員", attendees_en: "Kurata, Board", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月下旬（調整中）", agenda: "現状データの棚卸しと要件整理", agenda_en: "Current Data Audit & Requirements", attendees: "倉田、WEB担当、NTTデータFT様", attendees_en: "Kurata, Web, NTT Data FT", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月下旬（調整中）", agenda: "データ突合方式の設計・補助金申請準備", agenda_en: "Data Matching Design & Subsidy Prep", attendees: "倉田、システム部、NTTデータFT様", attendees_en: "Kurata, IT, NTT Data FT", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月中旬（調整中）", agenda: "ダッシュボード初期版の実装・中間検証①", agenda_en: "Initial Dashboard Prototype Review ①", attendees: "倉田、営業部、NTTデータFT様", attendees_en: "Kurata, Sales, NTT Data FT", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "11月下旬（調整中）", agenda: "実データでの検証・運用ルール策定", agenda_en: "Validation with Live Data & Rules", attendees: "プロジェクト関係者全員", attendees_en: "All Stakeholders", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月中旬（調整中）", agenda: "最終納品・社内引き継ぎ・総括", agenda_en: "Final Delivery, Handover & Summary", attendees: "倉田、役員、NTTデータFT様", attendees_en: "Kurata, Board, NTT Data FT", status: "todo" }
     ],
     budgets: [
       { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, assignee: "WEB担当・倉田", assignee_en: "Web Lead & Kurata", status: "todo" },
@@ -758,8 +768,8 @@
       tr.innerHTML = `
         <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
         <td><input type="text" class="inline-input font-bold" value="${typeVal}" onchange="updateEventField(${i}, 'type', this.value)"></td>
-        <td><input type="text" class="inline-input text-center" value="${ev.round || ''}" onchange="updateEventField(${i}, 'round', this.value)"></td>
-        <td><input type="text" class="inline-input" value="${ev.date || ''}" onchange="updateEventField(${i}, 'date', this.value)"></td>
+        <td><input type="text" class="inline-input text-center font-bold" value="${ev.round || ''}" onchange="updateEventField(${i}, 'round', this.value)"></td>
+        <td><input type="text" class="inline-input" value="${ev.date || ''}" placeholder="例: 9月9日（水）" onchange="updateEventField(${i}, 'date', this.value)"></td>
         <td><textarea class="inline-textarea" onchange="updateEventField(${i}, 'agenda', this.value)">${agendaVal}</textarea></td>
         <td><textarea class="inline-textarea" placeholder="例: 倉田、WEB担当" onchange="updateEventField(${i}, 'attendees', this.value)">${attVal}</textarea></td>
         <td class="text-center">
