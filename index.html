@@ -28,6 +28,7 @@
     padding-bottom: 50px;
   }
 
+  /* ヘッダー固定設定 */
   header {
     position: sticky;
     top: 0;
@@ -61,10 +62,12 @@
   }
   .lang-btn.active { background: var(--primary); color: #ffffff; }
 
+  /* 左右余白を最小限にして画面をワイドに活用 */
   .container {
-    max-width: 1480px;
-    margin: 16px auto;
-    padding: 0 16px;
+    width: 98%;
+    max-width: 1800px;
+    margin: 14px auto;
+    padding: 0 8px;
   }
 
   .control-bar {
@@ -72,7 +75,7 @@
     border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 10px 16px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -99,9 +102,9 @@
 
   .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .kpi-card {
     background: var(--card-bg);
@@ -120,29 +123,29 @@
 
   .dashboard-grid {
     display: grid;
-    grid-template-columns: 1.85fr 1.15fr;
-    gap: 16px;
-    margin-bottom: 16px;
+    grid-template-columns: 1.7fr 1.3fr;
+    gap: 14px;
+    margin-bottom: 14px;
   }
   .card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    padding: 16px;
+    padding: 14px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-  .card-title { font-size: 13px; font-weight: 700; color: var(--primary); }
+  .card-title { font-size: 13.5px; font-weight: 700; color: var(--primary); }
 
   .table-wrapper { overflow-x: auto; }
   .data-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
-  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 6px; text-align: left; vertical-align: top; }
+  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 7px 6px; text-align: left; vertical-align: top; }
   .data-table th { background-color: var(--primary-light); color: var(--primary); font-weight: 600; text-align: center; }
   
   .drag-handle {
@@ -185,7 +188,7 @@
     font-family: inherit;
     background: transparent;
     resize: vertical;
-    min-height: 44px;
+    min-height: 40px;
     line-height: 1.45;
     word-break: break-word;
   }
@@ -248,7 +251,7 @@
   <div class="control-bar">
     <div style="font-size:12px; color:var(--text-muted);" id="txtDbStatus">
       🌐 接続状況: <span id="syncStatus" class="font-bold text-primary">オフライン / ローカル動作中</span>
-      <span style="font-size:11px; margin-left:12px; color:#64748b;">※左端の「⠿」をつかんで上下にドラッグ＆ドロップすると並び替えできます</span>
+      <span style="font-size:11px; margin-left:12px; color:#64748b;">※左端の「⠿」をドラッグ＆ドロップで上下に並び替えできます</span>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <button class="btn btn-success" onclick="syncToGitHub()" id="btnSync">☁️ GitHubへ同期保存</button>
@@ -284,7 +287,7 @@
 
   <div class="dashboard-grid">
     
-    <!-- 左：イベント一覧（参加者欄を追加） -->
+    <!-- 左：イベント一覧（参加者欄付き） -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（参加者管理・ドラッグ並び替え可能）</span>
@@ -294,13 +297,13 @@
         <table class="data-table" id="tableEvents">
           <thead>
             <tr>
-              <th style="width: 4%;"></th>
-              <th style="width: 12%;" id="thEvType">区分</th>
-              <th style="width: 9%;" id="thEvRound">回次</th>
-              <th style="width: 14%;" id="thEvDate">時期・日程</th>
-              <th style="width: 31%;" id="thEvAgenda">アジェンダ・内容</th>
-              <th style="width: 16%;" id="thEvAttendees">参加者 / 同席者</th>
-              <th style="width: 10%;" id="thEvStatus">状況</th>
+              <th style="width: 3.5%;"></th>
+              <th style="width: 11%;" id="thEvType">区分</th>
+              <th style="width: 8%;" id="thEvRound">回次</th>
+              <th style="width: 13%;" id="thEvDate">時期・日程</th>
+              <th style="width: 32%;" id="thEvAgenda">アジェンダ・内容</th>
+              <th style="width: 18%;" id="thEvAttendees">参加者 / 同席者</th>
+              <th style="width: 10.5%;" id="thEvStatus">状況</th>
               <th style="width: 4%;"></th>
             </tr>
           </thead>
@@ -309,24 +312,25 @@
       </div>
     </div>
 
-    <!-- 右：補助金使途 -->
+    <!-- 右：補助金使途（担当・申請者欄付き） -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
-        <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（ドラッグ並び替え可能）</span>
+        <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（担当者管理・ドラッグ並び替え可能）</span>
         <button class="btn btn-primary" onclick="addBudgetRow()" id="btnAddBudget">＋ 追加</button>
       </div>
-      <div style="height: 160px; margin-bottom: 12px;">
+      <div style="height: 155px; margin-bottom: 10px;">
         <canvas id="budgetChart"></canvas>
       </div>
       <div class="table-wrapper">
         <table class="data-table" id="tableBudgets">
           <thead>
             <tr>
-              <th style="width: 7%;"></th>
-              <th style="width: 39%;" id="thBgItem">費目 / 対象</th>
-              <th style="width: 26%;" id="thBgAmount">金額 (円)</th>
-              <th style="width: 20%;" id="thBgStatus">執行状況</th>
-              <th style="width: 8%;"></th>
+              <th style="width: 5%;"></th>
+              <th style="width: 32%;" id="thBgItem">費目 / 対象</th>
+              <th style="width: 22%;" id="thBgAmount">金額 (円)</th>
+              <th style="width: 20%;" id="thBgAssignee">担当・申請者</th>
+              <th style="width: 16%;" id="thBgStatus">執行状況</th>
+              <th style="width: 5%;"></th>
             </tr>
           </thead>
           <tbody id="budgetTableBody"></tbody>
@@ -334,7 +338,7 @@
             <tr style="background:#f8fafc; font-weight:bold;">
               <td colspan="2" class="text-center" id="lblBgTotal">合計金額</td>
               <td class="text-right" id="valBgTotal">¥0</td>
-              <td colspan="2" style="font-size:11px; color:#64748b;" id="lblBgLimit">（上限30万）</td>
+              <td colspan="3" style="font-size:11px; color:#64748b;" id="lblBgLimit">（上限30万）</td>
             </tr>
           </tfoot>
         </table>
@@ -343,7 +347,7 @@
 
   </div>
 
-  <!-- 下段：社内横断タスクボード（対応者欄を追加） -->
+  <!-- 下段：社内横断タスクボード（対応者欄付き） -->
   <div class="card">
     <div class="card-header">
       <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（対応者管理・ドラッグ並び替え可能）</span>
@@ -353,13 +357,13 @@
       <table class="data-table" id="tableTasks">
         <thead>
           <tr>
-            <th style="width: 3%;"></th>
-            <th style="width: 10%;" id="thTkDept">担当部署</th>
-            <th style="width: 10%;" id="thTkAssignee">対応者</th>
-            <th style="width: 29%;" id="thTkTask">主要タスク・連携事項</th>
-            <th style="width: 9%;" id="thTkDue">期日</th>
-            <th style="width: 10%;" id="thTkStatus">ステータス</th>
-            <th style="width: 26%;" id="thTkNotes">備考 / 次のアクション</th>
+            <th style="width: 2.5%;"></th>
+            <th style="width: 9%;" id="thTkDept">担当部署</th>
+            <th style="width: 10%;" id="thTkAssignee">主担当 / 対応者</th>
+            <th style="width: 30%;" id="thTkTask">主要タスク・連携事項</th>
+            <th style="width: 8.5%;" id="thTkDue">期日</th>
+            <th style="width: 9.5%;" id="thTkStatus">ステータス</th>
+            <th style="width: 27.5%;" id="thTkNotes">備考 / 次のアクション</th>
             <th style="width: 3%;"></th>
           </tr>
         </thead>
@@ -421,9 +425,9 @@
       { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月中旬", agenda: "最終納品・社内引き継ぎ・総括", agenda_en: "Final Delivery, Handover & Summary", attendees: "倉田、役員、NTTデータFT様", attendees_en: "Kurata, Board, NTT Data FT", status: "todo" }
     ],
     budgets: [
-      { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, status: "todo" },
-      { item: "利用料：データ連携コネクター（6ヶ月）", item_en: "Subscription: Data Connector (6 mos)", amount: 120000, status: "todo" },
-      { item: "備品：社内検証用ツールライセンス", item_en: "Tools: Internal Testing Licenses", amount: 80000, status: "todo" }
+      { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, assignee: "WEB担当・倉田", assignee_en: "Web Lead & Kurata", status: "todo" },
+      { item: "利用料：データ連携コネクター（6ヶ月）", item_en: "Subscription: Data Connector (6 mos)", amount: 120000, assignee: "システム部", assignee_en: "IT Dept", status: "todo" },
+      { item: "備品：社内検証用ツールライセンス", item_en: "Tools: Internal Testing Licenses", amount: 80000, assignee: "事務局(倉田)", assignee_en: "PMO (Kurata)", status: "todo" }
     ],
     tasks: [
       { dept: "営業部", dept_en: "Sales", assignee: "営業担当", assignee_en: "Sales Rep", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", task_en: "Share joint project proposal & gather requirements", due: "9月中旬", status: "wip", note: "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ", note_en: "Align report card items" },
@@ -446,13 +450,13 @@
       kpiTasks: "④ 社内タスク完了率",
       eventsTitle: "伴走支援プログラム進捗（参加者管理・ドラッグ並び替え可能）",
       addEvent: "＋ 追加",
-      budgetTitle: "DX促進補助金 想定使途（ドラッグ並び替え可能）",
+      budgetTitle: "DX促進補助金 想定使途（担当者管理・ドラッグ並び替え可能）",
       addBudget: "＋ 追加",
       tasksTitle: "社内横断タスク推進ボード（対応者管理・ドラッグ並び替え可能）",
       addTask: "＋ タスク追加",
       thType: "区分", thRound: "回次", thDate: "時期・日程", thAgenda: "アジェンダ・内容", thAttendees: "参加者 / 同席者", thStatus: "状況",
-      thItem: "費目 / 対象", thAmount: "金額 (円)", thStatusBg: "執行状況",
-      thDept: "担当部署", thAssignee: "対応者", thTask: "主要タスク・連携事項", thDue: "期日", thNotes: "備考 / 次のアクション",
+      thItem: "費目 / 対象", thAmount: "金額 (円)", thBgAssignee: "担当・申請者", thStatusBg: "執行状況",
+      thDept: "担当部署", thAssignee: "主担当 / 対応者", thTask: "主要タスク・連携事項", thDue: "期日", thNotes: "備考 / 次のアクション",
       bgTotal: "合計金額", bgLimit: "（上限30万）",
       btnSync: "☁️ GitHubへ同期保存",
       btnImport: "📥 JSONインポート",
@@ -469,13 +473,13 @@
       kpiTasks: "④ Internal Tasks Completion",
       eventsTitle: "Mentoring Roadmap (Attendees & Drag to Sort)",
       addEvent: "+ Add",
-      budgetTitle: "Subsidy Allocation (Drag to Sort)",
+      budgetTitle: "Subsidy Allocation (Assignees & Drag to Sort)",
       addBudget: "+ Add",
       tasksTitle: "Task Board (Assignees & Drag to Sort)",
       addTask: "+ Add Task",
       thType: "Type", thRound: "Round", thDate: "Schedule", thAgenda: "Agenda & Details", thAttendees: "Attendees", thStatus: "Status",
-      thItem: "Expense Item / Purpose", thAmount: "Amount (JPY)", thStatusBg: "Status",
-      thDept: "Dept", thAssignee: "Assignee", thTask: "Key Task / Action", thDue: "Due Date", thNotes: "Notes / Next Action",
+      thItem: "Expense Item / Purpose", thAmount: "Amount (JPY)", thBgAssignee: "Assignee", thStatusBg: "Status",
+      thDept: "Dept", thAssignee: "Lead / Assignee", thTask: "Key Task / Action", thDue: "Due Date", thNotes: "Notes / Next Action",
       bgTotal: "Total Amount", bgLimit: "(Cap: ¥300k)",
       btnSync: "☁️ Sync to GitHub",
       btnImport: "📥 Import JSON",
@@ -558,7 +562,7 @@
       const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
 
       const body = {
-        message: `Update ${path} with attendees and assignees [skip ci]`,
+        message: `Update ${path} via PM Dashboard [skip ci]`,
         content: encodedContent,
         sha: currentFileSha || undefined
       };
@@ -575,7 +579,7 @@
       if (putRes.ok) {
         const resData = await putRes.json();
         currentFileSha = resData.content.sha;
-        alert("参加者・対応者情報を含めてGitHubへ正常に同期保存（コミット）されました！");
+        alert("GitHubへ正常に同期保存（コミット）されました！");
         document.getElementById('syncStatus').innerText = 'GitHubと同期完了 (' + new Date().toLocaleTimeString() + ')';
         document.getElementById('syncStatus').style.color = 'var(--success)';
       } else {
@@ -641,6 +645,7 @@
 
     document.getElementById('thBgItem').innerText = t.thItem;
     document.getElementById('thBgAmount').innerText = t.thAmount;
+    document.getElementById('thBgAssignee').innerText = t.thBgAssignee;
     document.getElementById('thBgStatus').innerText = t.thStatusBg;
     document.getElementById('lblBgTotal').innerText = t.bgTotal;
     document.getElementById('lblBgLimit').innerText = t.bgLimit;
@@ -789,7 +794,7 @@
     }
   }
 
-  // 2. 予算描画
+  // 2. 予算描画（担当・申請者欄付き）
   function renderBudgets() {
     const tbody = document.getElementById('budgetTableBody');
     tbody.innerHTML = "";
@@ -798,6 +803,7 @@
     appData.budgets.forEach((b, i) => {
       total += Number(b.amount) || 0;
       const itemVal = currentLang === 'ja' ? (b.item || '') : (b.item_en || b.item || '');
+      const assVal = currentLang === 'ja' ? (b.assignee || '') : (b.assignee_en || b.assignee || '');
 
       const tr = document.createElement('tr');
       tr.className = 'draggable-row';
@@ -805,6 +811,7 @@
         <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
         <td><textarea class="inline-textarea" onchange="updateBudgetField(${i}, 'item', this.value)">${itemVal}</textarea></td>
         <td><input type="number" class="inline-input text-right font-bold" value="${b.amount || 0}" onchange="updateBudgetField(${i}, 'amount', this.value)"></td>
+        <td><input type="text" class="inline-input text-center" placeholder="担当者名" value="${assVal}" onchange="updateBudgetField(${i}, 'assignee', this.value)"></td>
         <td class="text-center">
           <select class="status-badge-select status-${b.status}" onchange="updateBudgetStatus(${i}, this.value)">
             <option value="done" ${b.status==='done'?'selected':''}>${dict[currentLang].statusDone}</option>
@@ -824,6 +831,8 @@
   function updateBudgetField(idx, field, val) {
     if (field === 'item') {
       if (currentLang === 'ja') appData.budgets[idx].item = val; else appData.budgets[idx].item_en = val;
+    } else if (field === 'assignee') {
+      if (currentLang === 'ja') appData.budgets[idx].assignee = val; else appData.budgets[idx].assignee_en = val;
     } else {
       appData.budgets[idx].amount = Number(val) || 0;
     }
@@ -836,7 +845,7 @@
     saveData();
   }
   function addBudgetRow() {
-    appData.budgets.push({ item: "新規費目", item_en: "New Item", amount: 50000, status: "todo" });
+    appData.budgets.push({ item: "新規費目", item_en: "New Item", amount: 50000, assignee: "", assignee_en: "", status: "todo" });
     renderBudgets();
     saveData();
   }
@@ -848,7 +857,7 @@
     }
   }
 
-  // 3. タスク描画（対応者欄付き）
+  // 3. タスク描画（主担当/対応者欄付き）
   function renderTasks() {
     const tbody = document.getElementById('tasksTableBody');
     tbody.innerHTML = "";
