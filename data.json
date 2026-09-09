@@ -17,7 +17,8 @@
       "date": "9月9日",
       "agenda": "課題発見法・解決手段の選択法",
       "agenda_en": "Data Practice & Dashboard Requirements",
-      "status": "wip"
+      "status": "done",
+      "attendees": "吉田部長、倉田、ハキム"
     },
     {
       "type": "セミナー",
@@ -59,7 +60,7 @@
       "type": "現場訪問",
       "type_en": "On-site",
       "round": "第2回",
-      "date": "10月下旬",
+      "date": "10月26日",
       "agenda": "データ突合方式の設計・補助金申請準備",
       "agenda_en": "Finalize Matching & Subsidy Plan",
       "status": "todo"
