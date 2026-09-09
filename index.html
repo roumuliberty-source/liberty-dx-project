@@ -28,7 +28,6 @@
     padding-bottom: 50px;
   }
 
-  /* ヘッダー固定設定 */
   header {
     position: sticky;
     top: 0;
@@ -62,7 +61,6 @@
   }
   .lang-btn.active { background: var(--primary); color: #ffffff; }
 
-  /* 左右余白を最小限にして画面をワイドに活用 */
   .container {
     width: 98%;
     max-width: 1800px;
@@ -287,7 +285,6 @@
 
   <div class="dashboard-grid">
     
-    <!-- 左：イベント一覧（参加者欄付き） -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（参加者管理・ドラッグ並び替え可能）</span>
@@ -312,7 +309,6 @@
       </div>
     </div>
 
-    <!-- 右：補助金使途（担当・申請者欄付き） -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblBudgetTitle">DX促進補助金 想定使途（担当者管理・ドラッグ並び替え可能）</span>
@@ -347,7 +343,6 @@
 
   </div>
 
-  <!-- 下段：社内横断タスクボード（対応者欄付き） -->
   <div class="card">
     <div class="card-header">
       <span class="card-title" id="lblTasksTitle">社内横断タスク推進ボード（対応者管理・ドラッグ並び替え可能）</span>
@@ -374,26 +369,27 @@
 
 </div>
 
+<!-- GitHub設定モーダル（オーナー名・リポジトリ名・ファイル名を最初から入力済みに固定） -->
 <div class="modal-overlay" id="configModal">
   <div class="modal-box">
     <h3>⚙️ GitHubリポジトリ連携設定</h3>
     <div class="form-group">
-      <label>GitHubリポジトリオーナー（ユーザー名または組織名）</label>
-      <input type="text" id="cfgOwner" placeholder="例: roumuliberty-source">
+      <label>GitHubリポジトリオーナー</label>
+      <input type="text" id="cfgOwner" value="roumuliberty-source">
     </div>
     <div class="form-group">
       <label>リポジトリ名</label>
-      <input type="text" id="cfgRepo" placeholder="例: liberty-dx-project">
+      <input type="text" id="cfgRepo" value="liberty-dx-project">
     </div>
     <div class="form-group">
-      <label>データファイルパス（通常は data.json）</label>
+      <label>データファイルパス</label>
       <input type="text" id="cfgPath" value="data.json">
     </div>
     <div class="form-group">
-      <label>GitHub Personal Access Token (PAT) [書き込み用: Contents許可]</label>
-      <input type="password" id="cfgToken" placeholder="ghp_xxxxxxxxxxxx">
+      <label>GitHub Personal Access Token (PAT)</label>
+      <input type="password" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
       <div style="font-size:10.5px; color:#64748b; margin-top:3px;">
-        ※トークンは外部サーバーへ送信されず、お使いのブラウザ内のみに安全に保存されます。
+        ※ここに新しく発行したトークンを貼り付けて「設定を保存」を押してください。
       </div>
     </div>
     <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
@@ -496,10 +492,16 @@
     renderAll();
   };
 
+  function getGhOwner() { return localStorage.getItem('gh_owner') || 'roumuliberty-source'; }
+  function getGhRepo()  { return localStorage.getItem('gh_repo')  || 'liberty-dx-project'; }
+  function getGhPath()  { return localStorage.getItem('gh_path')  || 'data.json'; }
+  function getGhToken() { return localStorage.getItem('gh_token') || ''; }
+
   async function autoFetchFromGitHub() {
-    const owner = localStorage.getItem('gh_owner');
-    const repo = localStorage.getItem('gh_repo');
-    const path = localStorage.getItem('gh_path') || 'data.json';
+    const owner = getGhOwner();
+    const repo = getGhRepo();
+    const path = getGhPath();
+    const token = getGhToken();
 
     try {
       const res = await fetch(path + '?t=' + new Date().getTime());
@@ -516,7 +518,6 @@
 
     if (owner && repo) {
       try {
-        const token = localStorage.getItem('gh_token');
         const headers = token ? { 'Authorization': `token ${token}` } : {};
         const apiRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, { headers });
         if (apiRes.ok) {
@@ -534,13 +535,13 @@
   }
 
   async function syncToGitHub() {
-    const owner = localStorage.getItem('gh_owner');
-    const repo = localStorage.getItem('gh_repo');
-    const path = localStorage.getItem('gh_path') || 'data.json';
-    const token = localStorage.getItem('gh_token');
+    const owner = getGhOwner();
+    const repo = getGhRepo();
+    const path = getGhPath();
+    const token = getGhToken();
 
-    if (!owner || !repo || !token) {
-      alert("GitHubの同期設定が未設定です。右上の「⚙️ GitHub設定」から登録してください。");
+    if (!token) {
+      alert("GitHubの同期用トークン（PAT）が未登録です。右上の「⚙️ GitHub設定」からトークンを貼り付けて保存してください。");
       openConfigModal();
       return;
     }
@@ -595,22 +596,34 @@
     }
   }
 
-  function openConfigModal() { document.getElementById('configModal').style.display = 'flex'; }
+  function openConfigModal() {
+    loadGitHubConfig();
+    document.getElementById('configModal').style.display = 'flex';
+  }
   function closeConfigModal() { document.getElementById('configModal').style.display = 'none'; }
+  
   function saveGitHubConfig() {
-    localStorage.setItem('gh_owner', document.getElementById('cfgOwner').value.trim());
-    localStorage.setItem('gh_repo', document.getElementById('cfgRepo').value.trim());
-    localStorage.setItem('gh_path', document.getElementById('cfgPath').value.trim() || 'data.json');
-    localStorage.setItem('gh_token', document.getElementById('cfgToken').value.trim());
+    const owner = document.getElementById('cfgOwner').value.trim() || 'roumuliberty-source';
+    const repo = document.getElementById('cfgRepo').value.trim() || 'liberty-dx-project';
+    const path = document.getElementById('cfgPath').value.trim() || 'data.json';
+    const token = document.getElementById('cfgToken').value.trim();
+
+    localStorage.setItem('gh_owner', owner);
+    localStorage.setItem('gh_repo', repo);
+    localStorage.setItem('gh_path', path);
+    if (token) {
+      localStorage.setItem('gh_token', token);
+    }
     closeConfigModal();
-    alert("GitHub設定をローカルに保存しました。");
+    alert("GitHub設定を保存しました。");
     autoFetchFromGitHub().then(renderAll);
   }
+
   function loadGitHubConfig() {
-    document.getElementById('cfgOwner').value = localStorage.getItem('gh_owner') || '';
-    document.getElementById('cfgRepo').value = localStorage.getItem('gh_repo') || '';
-    document.getElementById('cfgPath').value = localStorage.getItem('gh_path') || 'data.json';
-    document.getElementById('cfgToken').value = localStorage.getItem('gh_token') || '';
+    document.getElementById('cfgOwner').value = getGhOwner();
+    document.getElementById('cfgRepo').value = getGhRepo();
+    document.getElementById('cfgPath').value = getGhPath();
+    document.getElementById('cfgToken').value = getGhToken();
   }
 
   function setLanguage(lang) {
@@ -732,7 +745,6 @@
     });
   }
 
-  // 1. イベント描画（参加者欄付き）
   function renderEvents() {
     const tbody = document.getElementById('eventsTableBody');
     tbody.innerHTML = "";
@@ -794,7 +806,6 @@
     }
   }
 
-  // 2. 予算描画（担当・申請者欄付き）
   function renderBudgets() {
     const tbody = document.getElementById('budgetTableBody');
     tbody.innerHTML = "";
@@ -857,7 +868,6 @@
     }
   }
 
-  // 3. タスク描画（主担当/対応者欄付き）
   function renderTasks() {
     const tbody = document.getElementById('tasksTableBody');
     tbody.innerHTML = "";
