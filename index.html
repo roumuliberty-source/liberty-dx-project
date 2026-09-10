@@ -167,7 +167,6 @@
   tr.drag-over-top { border-top: 3px solid var(--primary) !important; }
   tr.drag-over-bottom { border-bottom: 3px solid var(--primary) !important; }
 
-  /* 入力欄 */
   .inline-input {
     width: 100%;
     padding: 4px 6px;
@@ -270,8 +269,8 @@
   <div class="kpi-grid">
     <div class="kpi-card">
       <div class="kpi-title" id="lblKpiSeminar">① 基礎セミナー消化状況</div>
-      <div class="kpi-value" id="valKpiSeminar">1 / 5 回 (20%)</div>
-      <div class="progress-bg"><div class="progress-fill" id="barKpiSeminar" style="width: 20%;"></div></div>
+      <div class="kpi-value" id="valKpiSeminar">2 / 5 回 (40%)</div>
+      <div class="progress-bg"><div class="progress-fill" id="barKpiSeminar" style="width: 40%;"></div></div>
     </div>
     <div class="kpi-card" style="border-top-color: var(--info);">
       <div class="kpi-title" id="lblKpiVisit">② 現場訪問コンサルティング</div>
@@ -292,7 +291,7 @@
 
   <div class="dashboard-grid">
     
-    <!-- 左：イベント一覧（時期・日程列を13%→17%へ拡張） -->
+    <!-- 左：イベント一覧 -->
     <div class="card" style="margin-bottom:0;">
       <div class="card-header">
         <span class="card-title" id="lblEventsTitle">伴走支援プログラム進捗（参加者管理・ドラッグ並び替え可能）</span>
@@ -379,7 +378,7 @@
 
 </div>
 
-<!-- GitHub設定モーダル -->
+<!-- GitHub設定モーダル（オーナー名・リポジトリ名・ファイル名は初期入力済み） -->
 <div class="modal-overlay" id="configModal">
   <div class="modal-box">
     <h3>⚙️ GitHubリポジトリ連携設定</h3>
@@ -399,7 +398,7 @@
       <label>GitHub Personal Access Token (PAT)</label>
       <input type="password" id="cfgToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
       <div style="font-size:10.5px; color:#64748b; margin-top:3px;">
-        ※ここに新しく発行したトークンを貼り付けて「設定を保存」を押してください。
+        ※ここに発行した最新トークンを貼り付けて「設定を保存」を押してください。
       </div>
     </div>
     <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
@@ -419,28 +418,29 @@
 
   const defaultData = {
     events: [
-      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日（金）", agenda: "生成AI時代の課題解決／目標設定ワーク", agenda_en: "GenAI Problem Solving & Goal Setting", attendees: "倉田、社内受講者", attendees_en: "Kurata, Attendees", status: "done" },
-      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日（水）", agenda: "課題発見法・解決手段の選択法", agenda_en: "Issue Identification & Solution Selection", attendees: "倉田", attendees_en: "Kurata", status: "wip" },
-      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "9月30日（水）", agenda: "生成AIを活用したExcelマクロ", agenda_en: "Excel Macros with Generative AI", attendees: "倉田、実務担当", attendees_en: "Kurata, Staff", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "10月9日（金）", agenda: "生成AIによる高速アプリ開発", agenda_en: "Rapid App Development with AI", attendees: "倉田、システム担当", attendees_en: "Kurata, IT Staff", status: "todo" },
-      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "10月19日（月）", agenda: "製品選定と効果測定の基礎", agenda_en: "Product Selection & Metrics Basics", attendees: "倉田、役員", attendees_en: "Kurata, Board", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月下旬（調整中）", agenda: "現状データの棚卸しと要件整理", agenda_en: "Current Data Audit & Requirements", attendees: "倉田、WEB担当、NTTデータFT様", attendees_en: "Kurata, Web, NTT Data FT", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月下旬（調整中）", agenda: "データ突合方式の設計・補助金申請準備", agenda_en: "Data Matching Design & Subsidy Prep", attendees: "倉田、システム部、NTTデータFT様", attendees_en: "Kurata, IT, NTT Data FT", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月中旬（調整中）", agenda: "ダッシュボード初期版の実装・中間検証①", agenda_en: "Initial Dashboard Prototype Review ①", attendees: "倉田、営業部、NTTデータFT様", attendees_en: "Kurata, Sales, NTT Data FT", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "11月下旬（調整中）", agenda: "実データでの検証・運用ルール策定", agenda_en: "Validation with Live Data & Rules", attendees: "プロジェクト関係者全員", attendees_en: "All Stakeholders", status: "todo" },
-      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月中旬（調整中）", agenda: "最終納品・社内引き継ぎ・総括", agenda_en: "Final Delivery, Handover & Summary", attendees: "倉田、役員、NTTデータFT様", attendees_en: "Kurata, Board, NTT Data FT", status: "todo" }
+      { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日（金）", agenda: "生成AI時代の課題解決／目標設定ワーク", attendees: "吉田部長、倉田", status: "done" },
+      { type: "セミナー", type_en: "Seminar", round: "第2回", date: "9月9日（水）", agenda: "課題発見法・解決手段の選択法", attendees: "吉田部長、倉田、ハキム", status: "done" },
+      { type: "現場訪問", type_en: "On-site", round: "第1回", date: "9月24日（木）14:00〜", agenda: "現状データの棚卸しと要件整理", attendees: "", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第3回", date: "9月30日（水）14:00〜", agenda: "ダッシュボード作成ワーク（PC必須）", attendees: "", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第4回", date: "10月9日（金）14:00〜", agenda: "生成AIによる高速アプリ開発", attendees: "", status: "todo" },
+      { type: "セミナー", type_en: "Seminar", round: "第5回", date: "10月19日（月）14:00〜", agenda: "製品選定と効果測定の基礎", attendees: "", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第2回", date: "10月26日（月）10:00〜", agenda: "データ突合方式の設計・補助金申請準備", attendees: "", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第3回", date: "11月13日（金）10:00〜", agenda: "ダッシュボード初期版の実装・中間検証①", attendees: "", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第4回", date: "12月2日（水）13:00〜", agenda: "実データでの検証・運用ルール策定", attendees: "", status: "todo" },
+      { type: "現場訪問", type_en: "On-site", round: "第5回", date: "12月11日（金）14:00〜", agenda: "成果検証・社内自走化・事例集準備", attendees: "", status: "todo" },
+      { type: "成果発表会", type_en: "Final", round: "第11回", date: "翌年2月2日", agenda: "成果発表会（3時間程度）", attendees: "", status: "todo" }
     ],
     budgets: [
-      { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, assignee: "WEB担当・倉田", assignee_en: "Web Lead & Kurata", status: "todo" },
-      { item: "利用料：データ連携コネクター（6ヶ月）", item_en: "Subscription: Data Connector (6 mos)", amount: 120000, assignee: "システム部", assignee_en: "IT Dept", status: "todo" },
-      { item: "備品：社内検証用ツールライセンス", item_en: "Tools: Internal Testing Licenses", amount: 80000, assignee: "事務局(倉田)", assignee_en: "PMO (Kurata)", status: "todo" }
+      { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, assignee: "WEB担当・倉田", status: "todo" },
+      { item: "利用料：データ連携コネクター（6ヶ月）", item_en: "Subscription: Data Connector (6 mos)", amount: 120000, assignee: "システム部", status: "todo" },
+      { item: "備品：社内検証用ツールライセンス", item_en: "Tools: Internal Testing Licenses", amount: 80000, assignee: "事務局(倉田)", status: "todo" }
     ],
     tasks: [
-      { dept: "営業部", dept_en: "Sales", assignee: "営業担当", assignee_en: "Sales Rep", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", task_en: "Share joint project proposal & gather requirements", due: "9月中旬", status: "wip", note: "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ", note_en: "Align report card items" },
-      { dept: "WEB担当", dept_en: "Web", assignee: "WEB主担当", assignee_en: "Web Lead", task: "共同ポータル・各施設HPの計測タグ整理", task_en: "Organize tracking tags on portal & sites", due: "9月下旬", status: "wip", note: "GA4閲覧権限の確認および共同ポータル経由送客のUTMパラメータ命名規則を策定", note_en: "Prep data for Visit #1" },
-      { dept: "システム部", dept_en: "IT", assignee: "システム担当", assignee_en: "IT Lead", task: "予約成約データ（CSV）の抽出・突合仕様確認", task_en: "Verify reservation CSV export format", due: "10月上旬", status: "todo", note: "予約システム側の成約データ形式（CSV）を確認し、手動/自動突合の仕様を相談", note_en: "Check feasibility of conversion tags" },
-      { dept: "旅館部", dept_en: "Hotel Ops", assignee: "現場責任者", assignee_en: "Hotel Manager", task: "公式予約限定特典（直販インセンティブ）の選定", task_en: "Gather feedback on official direct booking perks", due: "10月中旬", status: "todo", note: "OTA経由よりも公式予約を選んでもらうための特典（館内利用券等）の現場ヒアリング", note_en: "Coordinate with sales plan" },
-      { dept: "事務局(倉田)", dept_en: "PMO", assignee: "倉田", assignee_en: "Kurata", task: "明日セミナー（NTTデータFT様）での要件すり合わせ", task_en: "Align requirements at Seminar #2", due: "9月9日", status: "wip", note: "共同直販モデル（広告費×送客×成約突合）を伴走支援の主題として提示・相談", note_en: "Present joint direct model at Seminar #2" }
+      { dept: "営業部", assignee: "営業担当", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", due: "9月中旬", status: "wip", note: "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ" },
+      { dept: "WEB担当", assignee: "WEB主担当", task: "共同ポータル・各施設HPの計測タグ整理", due: "9月下旬", status: "wip", note: "GA4閲覧権限の確認および共同ポータル経由送客のUTMパラメータ命名規則を策定" },
+      { dept: "システム部", assignee: "システム担当", task: "予約成約データ（CSV）の抽出・突合仕様確認", due: "10月上旬", status: "todo", note: "予約システム側の成約データ形式（CSV）を確認し、手動/自動突合の仕様を相談" },
+      { dept: "旅館部", assignee: "現場責任者", task: "公式予約限定特典（直販インセンティブ）の選定", due: "10月中旬", status: "todo", note: "OTA経由よりも公式予約を選んでもらうための特典（館内利用券等）の現場ヒアリング" },
+      { dept: "事務局(倉田)", assignee: "倉田", task: "現場同行①（9/24）用の実データ準備", due: "9月23日", status: "wip", note: "実際の予約CSV・広告費・GA4等を準備（秘匿化不要）" }
     ]
   };
 
