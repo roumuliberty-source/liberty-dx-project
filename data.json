@@ -21,6 +21,15 @@
       "attendees": "吉田部長、倉田、ハキム"
     },
     {
+      "type": "現場訪問",
+      "type_en": "On-site",
+      "round": "第1回",
+      "date": "9月24日（木）14時～",
+      "agenda": "現状データの棚卸しと要件整理",
+      "agenda_en": "Data Audit (Ads, GA4, Booking System)",
+      "status": "todo"
+    },
+    {
       "type": "セミナー",
       "type_en": "Seminar",
       "round": "第3回",
@@ -45,15 +54,6 @@
       "date": "10月19日（月）14時～",
       "agenda": "製品選定と効果測定の基礎",
       "agenda_en": "Self-sustaining Operations Wrap-up",
-      "status": "todo"
-    },
-    {
-      "type": "現場訪問",
-      "type_en": "On-site",
-      "round": "第1回",
-      "date": "9月24日（木）14時～",
-      "agenda": "現状データの棚卸しと要件整理",
-      "agenda_en": "Data Audit (Ads, GA4, Booking System)",
       "status": "todo"
     },
     {
