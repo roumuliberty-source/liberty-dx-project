@@ -183,18 +183,21 @@
   .inline-input:hover { border-color: #cbd5e1; background: #ffffff; }
   .inline-input:focus { border-color: var(--primary); background: #ffffff; outline: none; }
 
+  /* 改行・行数に合わせて自動伸縮するテキストエリア */
   .inline-textarea {
     width: 100%;
-    padding: 4px 6px;
+    padding: 5px 6px;
     border: 1px solid transparent;
     border-radius: 3px;
     font-size: 12px;
     font-family: inherit;
     background: transparent;
-    resize: vertical;
-    min-height: 40px;
-    line-height: 1.45;
+    resize: none;            /* スクロールツマミを消去 */
+    line-height: 1.55;       /* 読みやすい行間 */
     word-break: break-word;
+    overflow-y: hidden;      /* 邪魔な上下矢印・スクロールバーを非表示 */
+    box-sizing: border-box;
+    display: block;
   }
   .inline-textarea:hover { border-color: #cbd5e1; background: #ffffff; }
   .inline-textarea:focus { border-color: var(--primary); background: #ffffff; outline: none; }
@@ -378,7 +381,7 @@
 
 </div>
 
-<!-- GitHub設定モーダル（オーナー名・リポジトリ名・ファイル名は初期入力済み） -->
+<!-- GitHub設定モーダル -->
 <div class="modal-overlay" id="configModal">
   <div class="modal-box">
     <h3>⚙️ GitHubリポジトリ連携設定</h3>
@@ -698,6 +701,20 @@
     renderTasks();
     calculateKPIs();
     updateChart();
+    adjustAllTextareas();
+  }
+
+  // テキストエリアの高さを内容に合わせて自動調整する関数
+  function autoResizeTextarea(el) {
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = (el.scrollHeight + 2) + 'px';
+  }
+
+  function adjustAllTextareas() {
+    setTimeout(() => {
+      document.querySelectorAll('.inline-textarea').forEach(el => autoResizeTextarea(el));
+    }, 10);
   }
 
   function setupDragHandle(handleEl, rowEl, category, index) {
@@ -770,8 +787,8 @@
         <td><input type="text" class="inline-input font-bold" value="${typeVal}" onchange="updateEventField(${i}, 'type', this.value)"></td>
         <td><input type="text" class="inline-input text-center font-bold" value="${ev.round || ''}" onchange="updateEventField(${i}, 'round', this.value)"></td>
         <td><input type="text" class="inline-input" value="${ev.date || ''}" placeholder="例: 9月9日（水）" onchange="updateEventField(${i}, 'date', this.value)"></td>
-        <td><textarea class="inline-textarea" onchange="updateEventField(${i}, 'agenda', this.value)">${agendaVal}</textarea></td>
-        <td><textarea class="inline-textarea" placeholder="例: 倉田、WEB担当" onchange="updateEventField(${i}, 'attendees', this.value)">${attVal}</textarea></td>
+        <td><textarea class="inline-textarea" oninput="autoResizeTextarea(this)" onchange="updateEventField(${i}, 'agenda', this.value)">${agendaVal}</textarea></td>
+        <td><textarea class="inline-textarea" placeholder="例: 倉田、WEB担当" oninput="autoResizeTextarea(this)" onchange="updateEventField(${i}, 'attendees', this.value)">${attVal}</textarea></td>
         <td class="text-center">
           <select class="status-badge-select status-${ev.status}" onchange="updateEventStatus(${i}, this.value)">
             <option value="done" ${ev.status==='done'?'selected':''}>${dict[currentLang].statusDone}</option>
@@ -802,17 +819,20 @@
     appData.events[idx].status = val;
     renderEvents();
     saveData();
+    adjustAllTextareas();
   }
   function addEventRow() {
     appData.events.push({ type: "セミナー", type_en: "Seminar", round: `第${appData.events.length+1}回`, date: "日程調整中", agenda: "新規テーマ", agenda_en: "New Topic", attendees: "", attendees_en: "", status: "todo" });
     renderEvents();
     saveData();
+    adjustAllTextareas();
   }
   function deleteEvent(idx) {
     if (confirm("削除しますか？")) {
       appData.events.splice(idx, 1);
       renderEvents();
       saveData();
+      adjustAllTextareas();
     }
   }
 
@@ -830,7 +850,7 @@
       tr.className = 'draggable-row';
       tr.innerHTML = `
         <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
-        <td><textarea class="inline-textarea" onchange="updateBudgetField(${i}, 'item', this.value)">${itemVal}</textarea></td>
+        <td><textarea class="inline-textarea" oninput="autoResizeTextarea(this)" onchange="updateBudgetField(${i}, 'item', this.value)">${itemVal}</textarea></td>
         <td><input type="number" class="inline-input text-right font-bold" value="${b.amount || 0}" onchange="updateBudgetField(${i}, 'amount', this.value)"></td>
         <td><input type="text" class="inline-input text-center" placeholder="担当者名" value="${assVal}" onchange="updateBudgetField(${i}, 'assignee', this.value)"></td>
         <td class="text-center">
@@ -864,17 +884,20 @@
     appData.budgets[idx].status = val;
     renderBudgets();
     saveData();
+    adjustAllTextareas();
   }
   function addBudgetRow() {
     appData.budgets.push({ item: "新規費目", item_en: "New Item", amount: 50000, assignee: "", assignee_en: "", status: "todo" });
     renderBudgets();
     saveData();
+    adjustAllTextareas();
   }
   function deleteBudget(idx) {
     if (confirm("削除しますか？")) {
       appData.budgets.splice(idx, 1);
       renderBudgets();
       saveData();
+      adjustAllTextareas();
     }
   }
 
@@ -893,7 +916,7 @@
         <td class="text-center"><span class="drag-handle" title="ドラッグして並び替え">⠿</span></td>
         <td><input type="text" class="inline-input font-bold" value="${deptVal}" onchange="updateTaskField(${i}, 'dept', this.value)"></td>
         <td><input type="text" class="inline-input text-center" placeholder="担当者名" value="${assVal}" onchange="updateTaskField(${i}, 'assignee', this.value)"></td>
-        <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'task', this.value)">${taskVal}</textarea></td>
+        <td><textarea class="inline-textarea" oninput="autoResizeTextarea(this)" onchange="updateTaskField(${i}, 'task', this.value)">${taskVal}</textarea></td>
         <td><input type="text" class="inline-input text-center" value="${t.due || ''}" onchange="updateTaskField(${i}, 'due', this.value)"></td>
         <td class="text-center">
           <select class="status-badge-select status-${t.status}" onchange="updateTaskStatus(${i}, this.value)">
@@ -902,7 +925,7 @@
             <option value="todo" ${t.status==='todo'?'selected':''}>${dict[currentLang].statusTodo}</option>
           </select>
         </td>
-        <td><textarea class="inline-textarea" onchange="updateTaskField(${i}, 'note', this.value)">${noteVal}</textarea></td>
+        <td><textarea class="inline-textarea" oninput="autoResizeTextarea(this)" onchange="updateTaskField(${i}, 'note', this.value)">${noteVal}</textarea></td>
         <td class="text-center"><button class="btn-del" onclick="deleteTask(${i})">×</button></td>
       `;
       tbody.appendChild(tr);
@@ -928,17 +951,20 @@
     appData.tasks[idx].status = val;
     renderTasks();
     saveData();
+    adjustAllTextareas();
   }
   function addTaskRow() {
     appData.tasks.push({ dept: "担当部署", dept_en: "Department", assignee: "", assignee_en: "", task: "新規連携タスク", task_en: "New Collaboration Task", due: "月末", status: "todo", note: "-", note_en: "-" });
     renderTasks();
     saveData();
+    adjustAllTextareas();
   }
   function deleteTask(idx) {
     if (confirm("削除しますか？")) {
       appData.tasks.splice(idx, 1);
       renderTasks();
       saveData();
+      adjustAllTextareas();
     }
   }
 
