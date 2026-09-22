@@ -145,7 +145,7 @@
 
   .table-wrapper { overflow-x: auto; }
   .data-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
-  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 6px 4px; text-align: left; vertical-align: top; }
+  .data-table th, .data-table td { border: 1px solid var(--border-color); padding: 8px 6px; text-align: left; vertical-align: top; }
   .data-table th { background-color: var(--primary-light); color: var(--primary); font-weight: 600; text-align: center; }
   
   .drag-handle {
@@ -169,7 +169,7 @@
 
   .inline-input {
     width: 100%;
-    padding: 4px 6px;
+    padding: 6px 6px;
     border: 1px solid transparent;
     border-radius: 3px;
     font-size: 12px;
@@ -178,26 +178,27 @@
   }
   .inline-input.text-center {
     text-align: center;
-    padding: 4px 1px;
+    padding: 6px 1px;
   }
   .inline-input:hover { border-color: #cbd5e1; background: #ffffff; }
   .inline-input:focus { border-color: var(--primary); background: #ffffff; outline: none; }
 
-  /* 改行・行数に合わせて自動伸縮するテキストエリア */
+  /* 改行・行数に合わせて自動伸縮し、見切れを防ぐ設定 */
   .inline-textarea {
-    width: 100%;
-    padding: 5px 6px;
+    width: 100% !important;
+    padding: 6px 6px !important;
     border: 1px solid transparent;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: 12px !important;
     font-family: inherit;
     background: transparent;
-    resize: none;            /* スクロールツマミを消去 */
-    line-height: 1.55;       /* 読みやすい行間 */
-    word-break: break-word;
-    overflow-y: hidden;      /* 邪魔な上下矢印・スクロールバーを非表示 */
+    resize: none !important;
+    line-height: 1.6 !important;
+    word-break: break-word !important;
+    overflow: hidden !important;
     box-sizing: border-box;
     display: block;
+    min-height: 38px;
   }
   .inline-textarea:hover { border-color: #cbd5e1; background: #ffffff; }
   .inline-textarea:focus { border-color: var(--primary); background: #ffffff; outline: none; }
@@ -207,7 +208,7 @@
   .font-bold { font-weight: bold; }
 
   .status-badge-select {
-    padding: 4px 4px;
+    padding: 5px 4px;
     border-radius: 4px;
     font-size: 11px;
     font-weight: bold;
@@ -419,6 +420,7 @@
   let dragSrcIndex = null;
   let dragCategory = null;
 
+  // 初期データ（営業部長からのコメント＋直近の確定タスクを網羅）
   const defaultData = {
     events: [
       { type: "セミナー", type_en: "Seminar", round: "第1回", date: "8月28日（金）", agenda: "生成AI時代の課題解決／目標設定ワーク", attendees: "吉田部長、倉田", status: "done" },
@@ -434,16 +436,21 @@
       { type: "成果発表会", type_en: "Final", round: "第11回", date: "翌年2月2日", agenda: "成果発表会（3時間程度）", attendees: "", status: "todo" }
     ],
     budgets: [
-      { item: "委託費：初期構築・GA4タグ設定支援", item_en: "Outsourcing: GA4 Tag & Initial Setup", amount: 250000, assignee: "WEB担当・倉田", status: "todo" },
-      { item: "利用料：データ連携コネクター（6ヶ月）", item_en: "Subscription: Data Connector (6 mos)", amount: 120000, assignee: "システム部", status: "todo" },
-      { item: "備品：社内検証用ツールライセンス", item_en: "Tools: Internal Testing Licenses", amount: 80000, assignee: "事務局(倉田)", status: "todo" }
+      { item: "委託費：GA4送客計測・タグ設定支援", item_en: "Outsourcing: GA4 Tag & Setup Support", amount: 150000, assignee: "WEB担当・倉田", status: "todo" },
+      { item: "利用料：データ集約・AI連携コネクター（6ヶ月）", item_en: "Subscription: Data & AI Connector (6 mos)", amount: 90000, assignee: "システム部", status: "todo" },
+      { item: "備品：AI月次カルテ自動生成ツール", item_en: "Tools: AI Automated Report Tool", amount: 60000, assignee: "事務局(倉田)", status: "todo" }
     ],
     tasks: [
-      { dept: "営業部", assignee: "営業担当", task: "共同直販プロジェクト企画書の共有と要望ヒアリング", due: "9月中旬", status: "wip", note: "ダッシュボード概要資料を営業へ共有し、提案に必要な指標をすり合わせ" },
-      { dept: "WEB担当", assignee: "WEB主担当", task: "共同ポータル・各施設HPの計測タグ整理", due: "9月下旬", status: "wip", note: "GA4閲覧権限の確認および共同ポータル経由送客のUTMパラメータ命名規則を策定" },
-      { dept: "システム部", assignee: "システム担当", task: "予約成約データ（CSV）の抽出・突合仕様確認", due: "10月上旬", status: "todo", note: "予約システム側の成約データ形式（CSV）を確認し、手動/自動突合の仕様を相談" },
-      { dept: "旅館部", assignee: "現場責任者", task: "公式予約限定特典（直販インセンティブ）の選定", due: "10月中旬", status: "todo", note: "OTA経由よりも公式予約を選んでもらうための特典（館内利用券等）の現場ヒアリング" },
-      { dept: "事務局(倉田)", assignee: "倉田", task: "現場同行①（9/24）用の実データ準備", due: "9月23日", status: "wip", note: "実際の予約CSV・広告費・GA4等を準備（秘匿化不要）" }
+      { dept: "事務局(倉田)", assignee: "倉田、WEB担当", task: "現場同行①（9/24 14時）用実データ準備", due: "9月23日", status: "wip", note: "・宿さがしサイトのGA4画面や広告実績、過去レポートを用意。※コンサルタントが直接見るため秘匿化は不要" },
+      { dept: "営業部", assignee: "営業部長、倉田", task: "宿さがし参画宿向け月次報告カルテの要件定義", due: "9月下旬", status: "wip", note: "・営業部長の提案に基づき、報告に含める指標（アクセス数、送客クリック、推定売上、所見欄）をリストアップし、紙1枚のレイアウト枠組みを確定" },
+      { dept: "WEB担当", assignee: "WEB担当", task: "宿さがしサイト＆各参画宿への流出計測タグ整理", due: "9月下旬", status: "todo", note: "・宿さがしサイト内の各宿リンクに流出クリック計測タグ（GA4イベント）とパラメータ（utm_source等）を設定" },
+      { dept: "事務局(倉田)", assignee: "倉田", task: "第3回セミナー（9/30）ワーク用サンプルデータ作成", due: "9月29日", status: "todo", note: "・9/30の商工会議所ワーク用に社内データを秘匿化し、AIトークン対策として50行前後のCSVに整形" },
+      { dept: "営業部", assignee: "営業部長、営業担当", task: "AIによる月次実績報告（カルテ所見）自動生成の検討", due: "10月上旬", status: "todo", note: "・報告リソース不足解消のため、集計数値を渡すと評価と改善提案を出力するAIプロンプト案を検証" },
+      { dept: "WEB担当", assignee: "WEB担当、倉田", task: "データ集約（GA4→スプレッドシート等）の自動化検討", due: "10月中旬", status: "todo", note: "・手作業削減のため、GA4と広告実績をスプレッドシートへ自動同期するコネクター・GAS連携を設計" },
+      { dept: "システム部", assignee: "システム担当", task: "参画宿別マスタ・成約データ（CSV）連携仕様確認", due: "10月下旬", status: "todo", note: "・宿側の予約CSVフォーマットをヒアリングし、送客数と実際の宿泊成約の突合方式（手動/自動）を検証" },
+      { dept: "事務局(倉田)", assignee: "倉田、吉田部長", task: "DX補助金（上限30万枠）の使途計画・見積取得", due: "10月下旬", status: "todo", note: "・GA4支援（委託費）、連携コネクター、AIツール等の見積を取得し、吉田部長へ確認の上、静岡市への補助金交付申請書を作成" },
+      { dept: "営業部", assignee: "営業担当", task: "先行検証モデル施設（数社）でのカルテ提示テスト", due: "11月上旬", status: "todo", note: "・親しいテスト宿2〜3館へ実際にAI生成したカルテを持参し、納得感や営業フォロー効果をヒアリング" },
+      { dept: "営業部", assignee: "営業部長、営業担当", task: "営業トークスクリプト・月次報告運用フロー整備", due: "11月中旬", status: "todo", note: "・カルテ提示時の営業トーク（手数料削減アピール）と、月初ルーティン（集計→AI生成→報告）をマニュアル化" }
     ]
   };
 
@@ -708,13 +715,13 @@
   function autoResizeTextarea(el) {
     if (!el) return;
     el.style.height = 'auto';
-    el.style.height = (el.scrollHeight + 2) + 'px';
+    el.style.height = (el.scrollHeight + 4) + 'px';
   }
 
   function adjustAllTextareas() {
     setTimeout(() => {
       document.querySelectorAll('.inline-textarea').forEach(el => autoResizeTextarea(el));
-    }, 10);
+    }, 50);
   }
 
   function setupDragHandle(handleEl, rowEl, category, index) {
