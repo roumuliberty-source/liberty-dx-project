@@ -37,7 +37,7 @@
       "date": "9月30日（水）14時～",
       "agenda": "生成AIを活用したExcelマクロ",
       "agenda_en": "Data Matching & Model Formulation",
-      "status": "wip",
+      "status": "done",
       "attendees": "倉田"
     },
     {
@@ -137,7 +137,7 @@
       "task_en": "New Collaboration Task",
       "due": "9月30日",
       "status": "wip",
-      "note": "・9/30の第3回セミナー用ワークシート（KGI/KSF/KPI）を提出・合意",
+      "note": "人事労務DXプロジェクト目標設定ワークシートの確定",
       "note_en": "-"
     },
     {
@@ -145,11 +145,23 @@
       "dept_en": "Department",
       "assignee": "倉田",
       "assignee_en": "",
-      "task": "勤怠データ（実労働時間）の抽出仕様確認",
+      "task": "勤怠実績ログ（総実労働時間）の抽出仕様確認",
       "task_en": "New Collaboration Task",
       "due": "10月上旬",
       "status": "todo",
-      "note": "・各運営施設（天城荘・久能山等）のタイムカード・勤怠ログ出力形式を整理",
+      "note": "・全運営施設（天城荘・久能山等）の勤怠データ出力形式を整理",
+      "note_en": "-"
+    },
+    {
+      "dept": "旅館部",
+      "dept_en": "Department",
+      "assignee": "旅館部責任者、倉田",
+      "assignee_en": "",
+      "task": "旅館部の手当体系（役職・職務・時間帯加算等）の全体棚卸し",
+      "task_en": "New Collaboration Task",
+      "due": "10月中旬",
+      "status": "todo",
+      "note": "・夜間だけでなく現場手当・加算ルール全体をデータ化・体系化",
       "note_en": "-"
     },
     {
@@ -157,23 +169,11 @@
       "dept_en": "Department",
       "assignee": "システム担当、倉田",
       "assignee_en": "",
-      "task": "施設別売上・粗利データとの突合仕様設計",
+      "task": "施設売上・粗利データと勤怠の突合仕様設計",
       "task_en": "New Collaboration Task",
       "due": "10月中旬",
       "status": "todo",
-      "note": "・日別売上と実労働時間を紐付け、「人時生産性（売上÷総時間）」を算出するロジック策定",
-      "note_en": "-"
-    },
-    {
-      "dept": "旅館部",
-      "dept_en": "Department",
-      "assignee": "現場責任者、倉田",
-      "assignee_en": "",
-      "task": "現場ごとの加算手当・給与ルール（夜フロント等）の整理",
-      "task_en": "New Collaboration Task",
-      "due": "10月中旬",
-      "status": "todo",
-      "note": "・久能山の夜フロント（+100円/時、18時以降）等の現場加算ルールをデータ化",
+      "note": "・売上と労働時間を紐付け「人時生産性（売上÷総時間）」を自動算出",
       "note_en": "-"
     },
     {
@@ -185,7 +185,7 @@
       "task_en": "New Collaboration Task",
       "due": "10月下旬",
       "status": "todo",
-      "note": "・求人媒体別の費用と応募・採用実績を突合し、採用単価を可視化",
+      "note": "・媒体別費用と採用実績を突合し、真に定着する採用ルートを特定",
       "note_en": "-"
     },
     {
@@ -193,11 +193,11 @@
       "dept_en": "Department",
       "assignee": "吉田部長、倉田",
       "assignee_en": "",
-      "task": "DX補助金（上限30万枠）の使途計画策定・見積取得",
+      "task": "DX補助金（45万枠・補助30万）の申請書作成・見積取得",
       "task_en": "New Collaboration Task",
       "due": "10月下旬",
       "status": "todo",
-      "note": "・勤怠売上突合支援（委託費）、人事データ自動連携ツール等の見積取得と申請準備",
+      "note": "・データ分析PC、AIツール年間ライセンス、AI研修の見積を取得し申請",
       "note_en": "-"
     },
     {
@@ -205,11 +205,11 @@
       "dept_en": "Department",
       "assignee": "倉田",
       "assignee_en": "",
-      "task": "入社後「3か月定着率・1年定着率」トラッキングシート作成",
+      "task": "3か月・1年定着率の算出および離職予兆検知ロジック策定",
       "task_en": "New Collaboration Task",
       "due": "11月上旬",
       "status": "todo",
-      "note": "・入退社履歴・離職理由アンケートを整理し、初期離職の原因と予兆をデータ化",
+      "note": "・残業急増・勤怠の乱れログから早期フォロー面談に繋げる仕組み化",
       "note_en": "-"
     },
     {
@@ -217,23 +217,23 @@
       "dept_en": "Department",
       "assignee": "NTTデータFT、倉田",
       "assignee_en": "",
-      "task": "人時生産性・勤怠突合パイロット検証（現場訪問③）",
+      "task": "人時生産性・手当総合突合パイロット検証（現場訪問③）",
       "task_en": "New Collaboration Task",
       "due": "11月13日",
       "status": "todo",
-      "note": "・実データを用いた人時生産性ダッシュボード初期版の実装と分析検証",
+      "note": "・実データを用いた人時生産性ダッシュボード初期版の実装検証",
       "note_en": "-"
     },
     {
       "dept": "人事労務(倉田)",
       "dept_en": "Department",
-      "assignee": "現場責任者、倉田",
+      "assignee": "旅館部責任者、倉田",
       "assignee_en": "",
-      "task": "研修受講ログおよびスキル習得・戦力化スピードの相関分析",
+      "task": "研修受講率と現場戦力化スピードの相関分析",
       "task_en": "New Collaboration Task",
       "due": "11月下旬",
       "status": "todo",
-      "note": "・育成制度の標準化に向け、研修受講率と現場定着率の関連をチェック",
+      "note": "・早期戦力化を促す育成制度の標準化に向けた効果検証",
       "note_en": "-"
     },
     {
@@ -241,11 +241,11 @@
       "dept_en": "Department",
       "assignee": "吉田部長、倉田",
       "assignee_en": "",
-      "task": "人時生産性向上に基づく待遇還元・評価連動ルールの策定",
+      "task": "人材生産性向上に基づく旅館部手当・処遇連動制度の確立",
       "task_en": "New Collaboration Task",
       "due": "12月中旬",
       "status": "todo",
-      "note": "・生産性改善実績を賃金・手当へ還元する公正な評価・昇給フローの制度化",
+      "note": "・生産性・粗利改善実績を公正に手当・基本給へ還元する規程整備",
       "note_en": "-"
     }
   ]
