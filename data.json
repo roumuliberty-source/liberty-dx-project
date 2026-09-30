@@ -37,7 +37,8 @@
       "date": "9月30日（水）14時～",
       "agenda": "生成AIを活用したExcelマクロ",
       "agenda_en": "Data Matching & Model Formulation",
-      "status": "todo"
+      "status": "wip",
+      "attendees": "倉田"
     },
     {
       "type": "セミナー",
