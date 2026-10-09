@@ -47,7 +47,8 @@
       "date": "10月9日（金）14時～",
       "agenda": "生成AIによる高速アプリ開発",
       "agenda_en": "Hands-on BI (Looker Studio)",
-      "status": "todo"
+      "status": "wip",
+      "attendees": "倉田"
     },
     {
       "type": "セミナー",
