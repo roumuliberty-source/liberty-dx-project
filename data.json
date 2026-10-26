@@ -28,7 +28,7 @@
       "agenda": "現状データの棚卸しと要件整理",
       "agenda_en": "Data Audit (Ads, GA4, Booking System)",
       "status": "done",
-      "attendees": "吉田部長、倉田"
+      "attendees": "伊東様、吉田部長、倉田"
     },
     {
       "type": "セミナー",
@@ -67,7 +67,8 @@
       "date": "10月26日（月）10時～",
       "agenda": "データ突合方式の設計・補助金申請準備",
       "agenda_en": "Finalize Matching & Subsidy Plan",
-      "status": "todo"
+      "status": "done",
+      "attendees": "伊東様、原田様、倉田"
     },
     {
       "type": "現場訪問",
